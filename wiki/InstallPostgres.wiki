@@ -19,7 +19,7 @@ root@cake# ./configure --prefix=/opt/postgresql --with-perl --with-maxbackends=1
 (параметр *--with-perl*) и выставленным по умолчанию 1024 возможных
 соединений (обычно их 32).
 
-Добавим группу и пользователя от которых будет работать *PostgreSQL*:
+Добавим группу и пользователя от которых будет работать *PostgreSQL:*
 {{{
 root@cake# groupadd postgres
 root@cake# useradd -g postgres -s /bash/bash postgres
@@ -37,7 +37,7 @@ root@cake# export PGDATA="/opt/postgresql/var/data"
 root@cake# /opt/postgresql/bin/initdb 
 }}}
 
-Запускаем *PostgreSQL*:
+Запускаем *PostgreSQL:*
 {{{
 root@cake# su - postgres -c "/opt/postgresql/bin/pg_ctl start -D \ '/opt/postgresql/var/data' \
 -l '/opt/postgresql/var/data/postgresql.log' -o '-i '"
@@ -55,7 +55,7 @@ root@cake# export PATH="$PATH:/opt/postgresql/bin"
 /opt/postgresql/lib
 }}}
 
-Запускаем *ldconfig*:
+Запускаем *ldconfig:*
 {{{
 root@kcake# ldconfig
 }}}
@@ -66,7 +66,7 @@ root@kcake# ldconfig
 {{a name="install-gentoo"}}
 ====2. Установка в Gentoo Linux====
 
-Устанавливаем *PostgreSQL*:
+Устанавливаем *PostgreSQL:*
 {{{
 root@cake$ emerge postgresql
 }}}
@@ -79,7 +79,7 @@ root@cake$ ebuild /var/db/pkg/dev-db/postgresql-7.4.5/postgresql-7.4.5.ebuild co
 !!Замечание!!
 поменяйте номер версии *PostgreSQL* на тот который установился. У меня по умолчанию ставился 7.4.5
 
-Редактируем в */etc/conf.d/postgrsql*:
+Редактируем в */etc/conf.d/postgrsql*
 {{{
 #PGOPTS=""
 PGOPTS="-i"
@@ -90,7 +90,7 @@ PGOPTS="-i"
 !!Замечание!!
 В gentoo *$PGDATA* прописан в */etc/conf.d/postgresql*
 
-Запускаем и прописываем в автозагрузку *PostgreSQL*:
+Запускаем и прописываем в автозагрузку *PostgreSQL:*
 {{{
 /etc/init.d/postgresql start
 rc-update add postgresql default
@@ -100,7 +100,7 @@ rc-update add postgresql default
 {{a name="configuring"}}
 ====3. Настройка.====
 
-Переключаемся на пользователя *postgres*:
+Переключаемся на пользователя *postgres:*
 {{{
 root@cake# su postgres
 }}}
@@ -118,7 +118,7 @@ postgres@cake$ createuser -P -D -A cake
 postgres@cake$ createdb -O cake -E WIN cake
 }}}
 
-Добавляем язык хранимых процедур *plpgsql*:
+Добавляем язык хранимых процедур *plpgsql:*
 {{{
 postgres@cake$ createlang plpgsql cake 
 }}}
@@ -140,7 +140,7 @@ psql -Ucake cake -c "select * from cake.users;"
 }}}
 
 
-Закрываем сессию пользователя *postgres*:
+Закрываем сессию пользователя *postgres:*
 {{{
 postgres@cake$ exit
 }}}
