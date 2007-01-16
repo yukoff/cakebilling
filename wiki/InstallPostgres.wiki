@@ -1,140 +1,161 @@
-#summary One-sentence summary of this page.
+#summary Установка PostgreSQL
 
-{{TOC}}
-
-{{a name="install-source"}}
+[CakeInstallHowto <<назад]
 ====1. Установка из исходников.====
 
-Скачиваем тарбол с ((http://www.postgresql.org http://www.postgresql.org)).
+Скачиваем тарбол с http://www.postgresql.org
 
-Расспаковываем, запускаем **configure**:
-%%./configure --prefix=/opt/postgresql --with-perl --with-maxbackends=1024%%
+Расспаковываем, запускаем *configure*: 
+{{
+root@cake# ./configure --prefix=/opt/postgresql --with-perl --with-maxbackends=1024
+}}
 
-После того как **configure** отработал (надеюсь без ошибок), выполняем:
-%%root@cake# make all install %%
+После того как *configure* отработал (надеюсь без ошибок), выполняем:
+{{
+ root@cake# make all install
+}}
 
-На выходе получим установленный **postgresql** сервер с поддержкой **perl**
-(параметр **--with-perl**) и выставленным по умолчанию 1024 возможных
+На выходе получим установленный *postgresql* сервер с поддержкой *perl*
+(параметр *--with-perl*) и выставленным по умолчанию 1024 возможных
 соединений (обычно их 32).
 
-Добавим группу и пользователя от которых будет работать **~PostgreSQL**:
-%%
+Добавим группу и пользователя от которых будет работать *PostgreSQL*:
+{{
 root@cake# groupadd postgres
 root@cake# useradd -g postgres -s /bash/bash postgres
-%%
+}}
 
-Создаем каталог с базами данных, конфигурационным файлами и логами и экспортируем его в переменную **PGDATA**:
-%%
+Создаем каталог с базами данных, конфигурационным файлами и логами и экспортируем его в переменную *PGDATA*:
+{{
 root@cake# mkdir /opt/postgresql/var/data
 root@cake# chown postgres:postgres /opt/postgresql/var/data
 root@cake# export PGDATA="/opt/postgresql/var/data"
-%%
+}}
 
 Инициализируем служебные базы данных:
-%%root@cake# /opt/postgresql/bin/initdb %%
+{{
+root@cake# /opt/postgresql/bin/initdb 
+}}
 
-Запускаем **~PostgreSQL**:
-%%root@cake# su - postgres -c "/opt/postgresql/bin/pg_ctl start -D '/opt/postgresql/var/data' \
+Запускаем *PostgreSQL*:
+{{
+root@cake# su - postgres -c "/opt/postgresql/bin/pg_ctl start -D \ '/opt/postgresql/var/data' \
 -l '/opt/postgresql/var/data/postgresql.log' -o '-i '"
-%%
+}}
 
-О параметре **-i** при запуске **~PostgreSQL** подробнее ((#note-i в этом примечании)).
+О параметре *-i* при запуске *PostgreSQL* подробнее ((#note-i в этом примечании)).
  
 Далее добавляем в переменные среды:
-%%root@cake# export PATH="$PATH:/opt/postgresql/bin"%%
+{{
+root@cake# export PATH="$PATH:/opt/postgresql/bin"
+}}
 
-И добавляем в **/etc/ld.so.conf**
-%%/opt/postgresql/lib%%
+И добавляем в */etc/ld.so.conf*
+{{
+/opt/postgresql/lib
+}}
 
-Запускаем **ldconfig**
-%%root@kcake# ldconfig%%
+Запускаем *ldconfig*:
+{{
+root@kcake# ldconfig
+}}
 
-В результате был получен работоспособный **~PostgreSQL** сервер.
+В результате был получен работоспособный *PostgreSQL* сервер.
 Можно переходить к ((#configuring настройке)).
 
 {{a name="install-gentoo"}}
 ====2. Установка в Gentoo Linux====
 
-Устанавливаем **~PostgreSQL**:
-%%root@cake$ emerge postgresql %%
+Устанавливаем *PostgreSQL*:
+{{
+root@cake$ emerge postgresql
+}}
 
 Инсталируем начальные базы:
-%%root@cake$ ebuild /var/db/pkg/dev-db/postgresql-7.4.5/postgresql-7.4.5.ebuild config %%
+{{
+root@cake$ ebuild /var/db/pkg/dev-db/postgresql-7.4.5/postgresql-7.4.5.ebuild config
+}}
 
 !!Замечание!!
-поменяйте номер версии **~PostgreSQL** на тот который установился. У меня по умолчанию ставился 7.4.5
+поменяйте номер версии *PostgreSQL* на тот который установился. У меня по умолчанию ставился 7.4.5
 
-Редактируем в **/etc/conf.d/postgrsql**:
-%%
+Редактируем в */etc/conf.d/postgrsql*:
+{{
 #PGOPTS=""
 PGOPTS="-i"
-%%
+}}
 
-О параметре **-i** при запуске **~PostgreSQL** подробнее ((#note-i в этом примечании)).
+О параметре *-i* при запуске *~PostgreSQL* подробнее ((#note-i в этом примечании)).
 
 !!Замечание!!
-В gentoo **$PGDATA** прописан в **/etc/conf.d/postgresql**
+В gentoo *$PGDATA* прописан в */etc/conf.d/postgresql*
 
-Запускаем и прописываем в автозагрузку **~PostgreSQL**:
-%%
+Запускаем и прописываем в автозагрузку *PostgreSQL*:
+{{
 /etc/init.d/postgresql start
 rc-update add postgresql default
-%%
+}}
 
 
 {{a name="configuring"}}
 ====3. Настройка.====
 
-Переключаемся на пользователя **postgres**:
-%%
+Переключаемся на пользователя *postgres*:
+{{
 root@cake# su postgres
-%%
+}}
 
 Добавляем нового пользователя:
-%%
-postgres@cake$ createuser -P -D -A cake%%
+{{
+postgres@cake$ createuser -P -D -A cake
+}}
 
 !!Замечание!!
 По умолчанию в веб-интерфейсе для доступа в базу используется login: cake, password: cake. Учитывайте это при задании пароля.
 
-Создаём базу данных (Обязательно в горячо любимой всеми нами кодировке **WIN1251**):
-%%
-postgres@cake$ createdb -O cake -E WIN cake%%
+Создаём базу данных (Обязательно в горячо любимой всеми нами кодировке *WIN1251*):
+{{
+postgres@cake$ createdb -O cake -E WIN cake
+}}
 
-Добавляем язык хранимых процедур **plpgsql**:
-%%
-postgres@cake$ createlang plpgsql cake %%
+Добавляем язык хранимых процедур *plpgsql*:
+{{
+postgres@cake$ createlang plpgsql cake 
+}}
 
 Загружаем и экспортируем схему базы и начальные данные:
-%%
+{{
 postgres@cake$ wget http://cake.opennet.ru/cake-dump/cake.sql
-postgres@cake$ psql -Ucake -W -d cake -f cake.sql %%
+postgres@cake$ psql -Ucake -W -d cake -f cake.sql 
+}}
 
 {{a name="verify"}}
 Проверяем права:
-%%
+{{
 psql -Ucake cake -c "select * from cake.users;"
  id | login | name | pwd | balance | userblock | overtraffblock | ip_addr | id_tariff | grp
 -----+-------+-------+------+---------+-----------+----------------+---------+-----------+-----
  104 | admin | Admin | 1234 | 0.00 | f | t | 1 | 1 | 1
 (1 запись)
-%%
+}}
 
 
-Закрываем сессию пользователя **postgres**:
-%%
+Закрываем сессию пользователя *postgres*:
+{{
 postgres@cake$ exit
-%%
+}}
 
 {{a name="note-i"}}
 !!Замечание!!
-По умолчанию поддержка **tcp/ip** протокола отключена.
-При включении ее **~PostgreSQL** принимает подключения только от **localhost**.
-Если планируете установить **~FreeRADIUS** на другой машине, вам необходимо добавить в
-**$PGDATA/pg_hba.conf**
+По умолчанию поддержка *tcp/ip* протокола отключена.
+При включении ее *PostgreSQL* принимает подключения только от *localhost*.
+Если планируете установить *FreeRADIUS* на другой машине, вам необходимо добавить в
+*$PGDATA/pg_hba.conf*
 
-%%
+{{
 # IPv4-style local connections:
 host all all 192.168.1.1 255.255.255.255 password
-%%
-где **192.168.1.1** это **ip** адрес вашего **RADIUS** сервера. 
+}}
+где *192.168.1.1* это *ip* адрес вашего *RADIUS* сервера. 
+
+[CakeInstallHowto <<назад]
