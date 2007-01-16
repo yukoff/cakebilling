@@ -1,8 +1,8 @@
 #summary Как это всё работает?
 
-[CakeBaseInstall << назад]
+[CakeBaseInstall <<назад] [CakeInstallHowto далее>>]
 
-====Состав системы====
+Состав системы====
 
 Система состоит из нескольких независимых модулей:
 
@@ -40,4 +40,4 @@
 || 7 || acct-stop || pppd || > || radius || current datetime, traffic || стоп сессии ||
 || * _отлуп_ * ||  || || || || || ||
 
-[CakeBaseInstall << назад]
+[CakeBaseInstall <<назад] [CakeInstallHowto далее>>]
