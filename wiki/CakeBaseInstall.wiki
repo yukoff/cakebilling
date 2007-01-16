@@ -8,7 +8,7 @@
   * Pptpd http://www.poptop.org _версия 1.1.3 и выше_
   * PPP http://ppp.samba.org/ _версия 2.4.2.b3 и выше_
   * PostgreSQL сервер http://www.postgresql.org/ _версия 7.4.x (8.0 поддерживается версией 1.0.1rc)_
-  * JDK 1.3 и выше. [http://java.sun.com/j2se/1.4.2/download.html Sun JDK] [http://www.blackdown.org/java-linux/java-linux-d2.html Blackdown JDK] [http://commerce.bea.com/showproduct.jsp?family=WLJR&major=JR142SDK&minor=0 BEA Jrockit JDK]
+  * JDK 1.3 и выше. [http://java.sun.com/javase/downloads/index.jsp Sun JDK] [http://www.blackdown.org/java-linux/java-linux-d2.html Blackdown JDK] [http://commerce.bea.com/products/weblogicjrockit/jrockit_prod_fam.jsp BEA Jrockit JDK]
   * Servlet/JSP контейнер ( http://caucho.com/ или http://jakarta.apache.org/tomcat/ )
   * [http://jdbc.postgresql.org/download.html PostgreSQL JDBC Driver] _используется версия 3x_
   * Желание установить
