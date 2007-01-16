@@ -18,7 +18,7 @@
   * Работаем
  
 ====Подробнее по элементам системы====
-  * [install-postgres Установка PostgreSQL]
+  * [InstallPostgres Установка PostgreSQL]
   * [install-radius Установка RADIUS]
   * [install-ppp-pptpd Установка ppp+pptpd]
   * [install-resin Установка Resin]
