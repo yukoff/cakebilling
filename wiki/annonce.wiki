@@ -1,6 +1,6 @@
 #summary Введение
 
-[CakeBaseInstall далее &laquo;]
+[CakeBaseInstall далее>>]
 
 ====А зачем?====
 
