@@ -1,4 +1,5 @@
 #summary Как это всё работает?
+#labels Featured
 
 [CakeBaseInstall <<назад] [CakeInstallHowto далее>>]
 
