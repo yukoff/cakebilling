@@ -1,4 +1,5 @@
 #summary Введение
+#labels Featured
 
 [CakeBaseInstall далее>>]
 
