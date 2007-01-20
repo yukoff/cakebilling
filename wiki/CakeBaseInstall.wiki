@@ -8,7 +8,7 @@
   * [http://freeradius.org/ FreeRADIUS] _версия 0.9.3 и выше_
   * [http://www.poptop.org Pptpd] _версия 1.1.3 и выше_
   * [http://ppp.samba.org/ PPP] _версия 2.4.2.b3 и выше_
-  * [http://www.postgresql.org/ PostgreSQL] _версия 7.4.x (8.0 поддерживается версией 1.0.1rc)_
+  * [http://www.postgresql.org/ PostgreSQL] _версия 7.4.x (для 8.x используйте версию 1.0.1rc)_
   * JDK 1.3 и выше. [http://java.sun.com/javase/downloads/index.jsp Sun JDK] [http://www.blackdown.org/java-linux/java-linux-d2.html Blackdown JDK] [http://commerce.bea.com/products/weblogicjrockit/jrockit_prod_fam.jsp BEA Jrockit JDK]
   * Servlet/JSP контейнер ( http://caucho.com/ или http://jakarta.apache.org/tomcat/ )
   * [http://jdbc.postgresql.org/download.html PostgreSQL JDBC Driver] _используется версия 3x_
@@ -23,5 +23,8 @@
 ====Предупреждение====
   * Если есть возможность ставьте из родных пакетов. Особенно это касается *rpm-based* дистрибутивов. В них сборка из исходников непредсказуема.
   * Применять сборку из исходников рекомендуется на *source-based* дистрибутивах, а также в *slackware* и *debian*. В них не должно возникать проблем.
+
+-----------
+Для jdk менее 1.4.x необходим [http://www.jcp.org/en/jsr/detail?id=206 JAXP], в jdk 1.4.x и выше JAXP включен по умолчанию.
 
 [annonce <<назад] [CakeIntro далее>>]
