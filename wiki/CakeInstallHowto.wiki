@@ -1,5 +1,5 @@
 #summary Порядок установки
-[CakeIntro <<назад]
+[CakeIntro <<назад] [InstallPostgres далее>>]
 
 ====Порядок установки====
 
@@ -24,4 +24,4 @@
   * [install-resin Установка Resin]
   * [install-webapp Установка web-app администраторского интерфейса]
 
-[CakeIntro <<назад]
+[CakeIntro <<назад] [InstallPostgres далее>>]
