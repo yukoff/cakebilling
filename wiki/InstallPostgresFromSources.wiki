@@ -61,10 +61,11 @@ root@kcake# ldconfig
 Можно переходить к [ConfiguringPostgres настройке].
 
 =====Примечание=====
-По умолчанию в PostgreSQL 7.x отключена поддержка tcp/ip протокола. При включении ее PostgreSQL принимает подключения только от localhost. Если планируете установить FreeRADIUS на другой машине, вам необходимо добавить в $PGDATA/pg_hba.conf
-
+По умолчанию в PostgreSQL 7.x отключена поддержка tcp/ip протокола. При включении ее PostgreSQL принимает подключения только от *localhost*. Если планируете установить FreeRADIUS на другой машине, вам необходимо добавить в *$PGDATA/pg_hba.conf*
+{{{
 # IPv4-style local connections:
 host all all 192.168.1.1 255.255.255.255 password
+}}}
 
 где 192.168.1.1 это ip адрес вашего RADIUS сервера. 
 
