@@ -1,6 +1,6 @@
 #summary Порядок установки
-[CakeIntro <<назад] [InstallPostgres далее>>]
 
+[ [CakeIntro <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallPostgres >] ] [ [InstallPostgres >>] ]
 ====Порядок установки====
 
   * Берём машину с Linux
@@ -24,4 +24,4 @@
   * [install-resin Установка Resin]
   * [install-webapp Установка web-app администраторского интерфейса]
 
-[CakeIntro <<назад] [InstallPostgres далее>>]
+[ [CakeIntro <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallPostgres >] ] [ [InstallPostgres >>] ]
