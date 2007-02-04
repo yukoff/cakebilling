@@ -7,13 +7,13 @@
 root@cake$ emerge postgresql
 }}}
 
-Инсталируем начальные базы:
+Инициализируем служебные базы данных:
 {{{
 root@cake$ emerge --config =postgresql-7.4.5
 }}}
 
 *Note:*
-Поменяйте номер версии *PostgreSQL* на тот который установился.
+Перед запуском поменяйте номер версии *PostgreSQL* на тот который установился.
 
 Редактируем в */etc/conf.d/postgrsql*
 {{{
@@ -31,6 +31,8 @@ PGOPTS="-i"
 /etc/init.d/postgresql start
 rc-update add postgresql default
 }}}
+
+В результате у вас должен получиться рабочий сервер *PostgreSQL*. Можно переходить к [ConfiguringPostgres настройке].
 
 =====Примечание=====
 По умолчанию в PostgreSQL 7.x отключена поддержка tcp/ip протокола. При включении ее PostgreSQL принимает подключения только от *localhost*. Если планируете установить FreeRADIUS на другой машине, вам необходимо добавить в *$PGDATA/pg_hba.conf*
