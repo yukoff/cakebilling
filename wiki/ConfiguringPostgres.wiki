@@ -1,4 +1,5 @@
 #summary Настройка PostgreSQL.
+[ [InstallPostgresToc <<] ] [ [InstallPostgresInGentoo <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusToc >] ] [ [InstallFreeRadiusToc >>] ]
 
 Переключаемся на пользователя *postgres:*
 {{{
@@ -57,3 +58,5 @@ postgres@cake$ exit
 host all all 192.168.1.1 255.255.255.255 password
 }}}
 где *192.168.1.1* это *ip* адрес вашего *RADIUS* сервера. 
+
+[ [InstallPostgresToc <<] ] [ [InstallPostgresInGentoo <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusToc >] ] [ [InstallFreeRadiusToc >>] ]
