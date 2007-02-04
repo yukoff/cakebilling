@@ -1,0 +1,8 @@
+#summary Установка веб-сервера Resin
+
+[ [InstallPppdPptpdToc <<] ] [ [ConfiguringPppdPptpd <] ] [ [CakeToc В начало] ] [ [InstallResinFromSources >] ] [ [InstallWebapp >>] ]
+
+ * [InstallResinFromSources Установка из исходников]
+ * [InstallResinInGentoo Установка в Gentoo Linux]
+
+[ [InstallPppdPptpdToc <<] ] [ [ConfiguringPppdPptpd <] ] [ [CakeToc В начало] ] [ [InstallResinFromSources >] ] [ [InstallWebapp >>] ]
