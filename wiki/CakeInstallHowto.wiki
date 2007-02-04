@@ -1,6 +1,6 @@
 #summary Порядок установки
 
-[ [annonce <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallPostgres >] ] [ [InstallPostgres >>] ]
+[ [annonce <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusToc >] ] [ [InstallFreeRadiusToc >>] ]
 ====Порядок установки====
 
   * Берём машину с Linux
@@ -17,4 +17,4 @@
     * Конфигурируем
   * Работаем
  
-[ [annonce <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallPostgres >] ] [ [InstallPostgres >>] ]
+[ [annonce <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusToc >] ] [ [InstallFreeRadiusToc >>] ]
