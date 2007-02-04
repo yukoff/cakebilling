@@ -1,7 +1,9 @@
 #summary Как это всё работает?
 #labels Featured
 
-[CakeBaseInstall <<назад] [CakeInstallHowto далее>>]
+[ [CakeBaseInstall <<] ] [ [CakeBaseInstall <] ] [ [CakeToc В начало] ] [ [CakeInstallHowto >] ] [ [CakeInstallHowto >>] ]
+
+
 
 ====Состав системы====
 
@@ -41,4 +43,4 @@
 || 7 || acct-stop || pppd || > || radius || current datetime, traffic || стоп сессии ||
 || * _отлуп_ * ||  || || || || || ||
 
-[CakeBaseInstall <<назад] [CakeInstallHowto далее>>]
+[ [CakeBaseInstall <<] ] [ [CakeBaseInstall <] ] [ [CakeToc В начало] ] [ [CakeInstallHowto >] ] [ [CakeInstallHowto >>] ]
