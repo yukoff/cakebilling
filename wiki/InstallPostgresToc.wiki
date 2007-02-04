@@ -1,0 +1,9 @@
+#summary Установка PostgreSQL
+
+[ << ] [ < ] [ В начало ] [ > ] [ >> ]
+
+ * [InstallPostgresFromSources Установка из исходников]
+ * [InstallPostgresInGentoo Установка в Gentoo Linux]
+ * [ConfiguringPostgres Настройка]
+
+[ << ] [ < ] [ В начало ] [ > ] [ >> ]
