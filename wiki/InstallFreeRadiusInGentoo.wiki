@@ -1,0 +1,27 @@
+#summary Установка FreeRadius в Gentoo
+
+[ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusFromSources <] ] [ [CakeToc В начало] ] [ [ConfigureFreeRadius >] ] [ [InstallPppdPptpdToc >>] ]
+
+Экспортируем переменные:
+%%root@cake# export USE="postgres" %%
+
+Для работы биллинга необходимо выставлять USE флаг "+postgres" (если он у вас уже не стоит конечно).
+
+Проверяем:
+%%root@cake# emerge -vp freeradius
+
+These are the packages that I would merge, in order:
+
+Calculating dependencies ...done!
+[ebuild N ] net-dialup/freeradius-0.9.3-r1 -frascend -frlargefiles -frnothreds -frxp +postgres 0 kB
+
+Total size of downloads: 0 kB
+root@cake#
+%%
+
+Устанавливаем **~FreeRADIUS**:
+%%root@cake# emerge freeradius%%
+
+Переходим к ((#configuring настройке)).
+
+[ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusFromSources <] ] [ [CakeToc В начало] ] [ [ConfigureFreeRadius >] ] [ [InstallPppdPptpdToc >>] ]
