@@ -1,9 +1,9 @@
 #summary Что нужно для установки
 #labels Featured
 
-[annonce <<назад] [CakeIntro далее>>]
+[ [annonce <<] ] [ [annonce <] ] [ [CakeToc В начало] ] [ [CakeIntro >] ] [ [CakeIntro >>] ]
 
-====Чего надо====
+====Необходимые компоненты====
   * Машину с `*`nix
   * [http://freeradius.org/ FreeRADIUS] _версия 0.9.3 и выше_
   * [http://www.poptop.org Pptpd] _версия 1.1.3 и выше_
@@ -28,4 +28,4 @@
 
   * Для jdk менее 1.4.x необходим [http://www.jcp.org/en/jsr/detail?id=206 JAXP], в jdk 1.4.x и выше JAXP включен по умолчанию.
 
-[annonce <<назад] [CakeIntro далее>>]
+[ [annonce <<] ] [ [annonce <] ] [ [CakeToc В начало] ] [ [CakeIntro >] ] [ [CakeIntro >>] ]
