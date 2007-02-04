@@ -17,6 +17,5 @@
  * Установка Resin
  * Установка web-app администраторского интерфейса
 
-[ << ] [ < ] [CakeToc В начало] [ [annonce >] ] [ [annonce >>] ]
-
+[ << ] [ < ] [ [CakeToc В начало] ] [ [annonce >] ] [ [annonce >>] ]
 
