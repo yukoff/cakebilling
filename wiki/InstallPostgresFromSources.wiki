@@ -60,6 +60,6 @@ root@kcake# ldconfig
 }}}
 
 В результате был получен работоспособный *PostgreSQL* сервер.
-Можно переходить к ((#configuring настройке)).
+Можно переходить к [ConfiguringPostgres настройке].
 
 [ [InstallPostgresToc <<] ] [ [InstallPostgresToc <] ] [ [CakeToc В начало] ] [ [CakeIntro >] ] [ [CakeIntro >>] ]
