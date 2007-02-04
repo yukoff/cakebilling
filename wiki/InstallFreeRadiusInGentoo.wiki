@@ -1,6 +1,6 @@
 #summary Установка FreeRadius в Gentoo
 
-[ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusFromSources <] ] [ [CakeToc В начало] ] [ [ConfigureFreeRadius >] ] [ [InstallPppdPptpdToc >>] ]
+[ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusFromSources <] ] [ [CakeToc В начало] ] [ [ConfiguringFreeRadius >] ] [ [InstallPppdPptpdToc >>] ]
 
 Экспортируем переменные:
 %%root@cake# export USE="postgres" %%
@@ -24,4 +24,4 @@ root@cake#
 
 Переходим к ((#configuring настройке)).
 
-[ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusFromSources <] ] [ [CakeToc В начало] ] [ [ConfigureFreeRadius >] ] [ [InstallPppdPptpdToc >>] ]
+[ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusFromSources <] ] [ [CakeToc В начало] ] [ [ConfiguringFreeRadius >] ] [ [InstallPppdPptpdToc >>] ]
