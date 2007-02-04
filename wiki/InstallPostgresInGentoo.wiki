@@ -1,4 +1,6 @@
-#summary Установка в Gentoo Linux
+#summary Установка PostgreSQL в Gentoo Linux
+
+[ [InstallPostgresToc <<] ] [ [InstallPostgresFromSources <] ] [ [CakeToc В начало] ] [ [ConfguringPostgres >] ] [ [InstallFreeRadiusToc >>] ]
 
 Устанавливаем *PostgreSQL:*
 {{{
@@ -29,3 +31,5 @@ PGOPTS="-i"
 /etc/init.d/postgresql start
 rc-update add postgresql default
 }}}
+
+[ [InstallPostgresToc <<] ] [ [InstallPostgresFromSources <] ] [ [CakeToc В начало] ] [ [ConfguringPostgres >] ] [ [InstallFreeRadiusToc >>] ]
