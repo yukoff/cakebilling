@@ -1,7 +1,7 @@
 #summary Как это всё работает?
 #labels Featured
 
-[ [CakeBaseInstall <<] ] [ [CakeBaseInstall <] ] [ [CakeToc В начало] ] [ [CakeInstallHowto >] ] [ [CakeInstallHowto >>] ]
+[ [CakeBaseInstall <<] ] [ [CakeBaseInstall <] ] [ [CakeToc В начало] ] [ [CakeInstallHowto >] ] [ [InstallPostgresToc >>] ]
 
 
 
@@ -43,4 +43,4 @@
 || 7 || acct-stop || pppd || > || radius || current datetime, traffic || стоп сессии ||
 || * _отлуп_ * ||  || || || || || ||
 
-[ [CakeBaseInstall <<] ] [ [CakeBaseInstall <] ] [ [CakeToc В начало] ] [ [CakeInstallHowto >] ] [ [CakeInstallHowto >>] ]
+[ [CakeBaseInstall <<] ] [ [CakeBaseInstall <] ] [ [CakeToc В начало] ] [ [CakeInstallHowto >] ] [ [InstallPostgresToc  >>] ]
