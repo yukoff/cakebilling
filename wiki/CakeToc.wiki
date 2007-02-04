@@ -12,10 +12,9 @@
 
  * [CakeInstallHowto Порядок установки]
  * [InstallPostgresToc Установка PostgreSQL]
- * Установка FreeRADIUS
+ * [InstallFreeRadiusToc Установка FreeRADIUS]
  * Установка ppp+pptpd
  * Установка Resin
  * Установка web-app администраторского интерфейса
 
 [ << ] [ < ] [ [CakeToc В начало] ] [ [annonce >] ] [ [annonce >>] ]
-
