@@ -1,0 +1,31 @@
+#summary Установка в Gentoo Linux
+
+Устанавливаем *PostgreSQL:*
+{{{
+root@cake$ emerge postgresql
+}}}
+
+Инсталируем начальные базы:
+{{{
+root@cake$ ebuild /var/db/pkg/dev-db/postgresql-7.4.5/postgresql-7.4.5.ebuild config
+}}}
+
+!!Замечание!!
+поменяйте номер версии *PostgreSQL* на тот который установился. У меня по умолчанию ставился 7.4.5
+
+Редактируем в */etc/conf.d/postgrsql*
+{{{
+#PGOPTS=""
+PGOPTS="-i"
+}}}
+
+О параметре *-i* при запуске *~PostgreSQL* подробнее ((#note-i в этом примечании)).
+
+!!Замечание!!
+В gentoo *$PGDATA* прописан в */etc/conf.d/postgresql*
+
+Запускаем и прописываем в автозагрузку *PostgreSQL:*
+{{{
+/etc/init.d/postgresql start
+rc-update add postgresql default
+}}}
