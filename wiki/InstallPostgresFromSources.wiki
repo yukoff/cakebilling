@@ -40,7 +40,7 @@ root@cake# su - postgres -c "/opt/postgresql/bin/pg_ctl start -D \ '/opt/postgre
 -l '/opt/postgresql/var/data/postgresql.log' -o '-i '"
 }}}
 
-О параметре *-i* при запуске *PostgreSQL* подробнее смотри ниже в примечании.
+О параметре *-i* при запуске *PostgreSQL* подробнее смотрите в примечании ниже.
  
 Далее добавляем в переменные среды:
 {{{
@@ -61,7 +61,7 @@ root@kcake# ldconfig
 Можно переходить к [ConfiguringPostgres настройке].
 
 =====Примечание=====
-По умолчанию в PostgreSQL 7.x поддержка tcp/ip протокола отключена. При включении ее PostgreSQL принимает подключения только от localhost. Если планируете установить FreeRADIUS на другой машине, вам необходимо добавить в $PGDATA/pg_hba.conf
+По умолчанию в PostgreSQL 7.x отключена поддержка tcp/ip протокола. При включении ее PostgreSQL принимает подключения только от localhost. Если планируете установить FreeRADIUS на другой машине, вам необходимо добавить в $PGDATA/pg_hba.conf
 
 # IPv4-style local connections:
 host all all 192.168.1.1 255.255.255.255 password
