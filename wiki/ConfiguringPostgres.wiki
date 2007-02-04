@@ -1,4 +1,4 @@
-#summary Настройка PostgreSQL.
+#summary Настройка PostgreSQL
 [ [InstallPostgresToc <<] ] [ [InstallPostgresInGentoo <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusToc >] ] [ [InstallFreeRadiusToc >>] ]
 
 Переключаемся на пользователя *postgres:*
