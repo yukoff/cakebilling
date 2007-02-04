@@ -10,7 +10,6 @@
 
 =Руководство по инсталляции=
 
- * [CakeInstallHowto Порядок установки]
  * [InstallPostgresToc Установка PostgreSQL]
  * [InstallFreeRadiusToc Установка FreeRADIUS]
  * Установка ppp+pptpd
