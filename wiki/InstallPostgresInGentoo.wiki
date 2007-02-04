@@ -23,7 +23,7 @@ PGOPTS="-i"
 
 О параметре *-i* при запуске *~PostgreSQL* подробнее смотрите ниже в примечании.
 
-Note:
+**Note:**
 В gentoo *$PGDATA* прописан в */etc/conf.d/postgresql*
 
 Запускаем и прописываем в автозагрузку *PostgreSQL:*
