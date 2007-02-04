@@ -1,6 +1,6 @@
 #summary Порядок установки
 
-[ [CakeIntro <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallPostgres >] ] [ [InstallPostgres >>] ]
+[ [annonce <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallPostgres >] ] [ [InstallPostgres >>] ]
 ====Порядок установки====
 
   * Берём машину с Linux
@@ -17,4 +17,4 @@
     * Конфигурируем
   * Работаем
  
-[ [CakeIntro <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallPostgres >] ] [ [InstallPostgres >>] ]
+[ [annonce <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallPostgres >] ] [ [InstallPostgres >>] ]
