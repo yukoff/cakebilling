@@ -1,0 +1,62 @@
+#summary Установка PostgreSQL из исходников.
+====Установка из исходников.====
+
+Скачиваем тарбол с http://www.postgresql.org
+
+Расспаковываем, запускаем *configure:*
+{{{
+root@cake# ./configure --prefix=/opt/postgresql --with-perl --with-maxbackends=1024
+}}}
+
+После того как *configure* отработал (надеюсь без ошибок), выполняем:
+{{{
+ root@cake# make all install
+}}}
+
+На выходе получим установленный *postgresql* сервер с поддержкой *perl*
+(параметр *--with-perl* ) и выставленным по умолчанию 1024 возможных
+соединений (обычно их 32).
+
+Добавим группу и пользователя от которых будет работать *PostgreSQL:*
+{{{
+root@cake# groupadd postgres
+root@cake# useradd -g postgres -s /bash/bash postgres
+}}}
+
+Создаем каталог с базами данных, конфигурационным файлами и логами и экспортируем его в переменную *PGDATA:*
+{{{
+root@cake# mkdir /opt/postgresql/var/data
+root@cake# chown postgres:postgres /opt/postgresql/var/data
+root@cake# export PGDATA="/opt/postgresql/var/data"
+}}}
+
+Инициализируем служебные базы данных:
+{{{
+root@cake# /opt/postgresql/bin/initdb 
+}}}
+
+Запускаем *PostgreSQL:*
+{{{
+root@cake# su - postgres -c "/opt/postgresql/bin/pg_ctl start -D \ '/opt/postgresql/var/data' \
+-l '/opt/postgresql/var/data/postgresql.log' -o '-i '"
+}}}
+
+О параметре *-i* при запуске *PostgreSQL* подробнее ((#note-i в этом примечании)).
+ 
+Далее добавляем в переменные среды:
+{{{
+root@cake# export PATH="$PATH:/opt/postgresql/bin"
+}}}
+
+И добавляем в */etc/ld.so.conf*
+{{{
+/opt/postgresql/lib
+}}}
+
+Запускаем *ldconfig:*
+{{{
+root@kcake# ldconfig
+}}}
+
+В результате был получен работоспособный *PostgreSQL* сервер.
+Можно переходить к ((#configuring настройке)).
