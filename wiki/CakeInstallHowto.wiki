@@ -17,11 +17,4 @@
     * Конфигурируем
   * Работаем
  
-====Подробнее по элементам системы====
-  * [InstallPostgres Установка PostgreSQL]
-  * [install-radius Установка RADIUS]
-  * [install-ppp-pptpd Установка ppp+pptpd]
-  * [install-resin Установка Resin]
-  * [install-webapp Установка web-app администраторского интерфейса]
-
 [ [CakeIntro <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallPostgres >] ] [ [InstallPostgres >>] ]
