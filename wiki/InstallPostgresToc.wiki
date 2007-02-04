@@ -1,9 +1,9 @@
 #summary Установка PostgreSQL
 
-[ [<< annonce] ] [ [CakeInstallHowto <] ] [ [CakeToc В начало] ] [ [InstallPostgresFromSources >] ] [ [InstallFreeRadiusToc >>] ]
+[ [annonce <<] ] [ [CakeInstallHowto <] ] [ [CakeToc В начало] ] [ [InstallPostgresFromSources >] ] [ [InstallFreeRadiusToc >>] ]
 
  * [InstallPostgresFromSources Установка из исходников]
  * [InstallPostgresInGentoo Установка в Gentoo Linux]
  * [ConfiguringPostgres Настройка]
 
-[ [<< annonce] ] [ [CakeInstallHowto <] ] [ [CakeToc В начало] ] [ [InstallPostgresFromSources >] ] [ [InstallFreeRadiusToc >>] ]
+[ [annonce <<] ] [ [CakeInstallHowto <] ] [ [CakeToc В начало] ] [ [InstallPostgresFromSources >] ] [ [InstallFreeRadiusToc >>] ]
