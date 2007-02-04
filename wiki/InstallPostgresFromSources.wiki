@@ -1,5 +1,7 @@
 #summary Установка PostgreSQL из исходников.
 
+[ [InstallPostgresToc <<] ] [ [nstallPostgresToc <] ] [ [CakeToc В начало] ] [ [CakeIntro >] ] [ [CakeIntro >>] ]
+
 Скачиваем тарбол с http://www.postgresql.org
 
 Расспаковываем, запускаем *configure:*
@@ -59,3 +61,5 @@ root@kcake# ldconfig
 
 В результате был получен работоспособный *PostgreSQL* сервер.
 Можно переходить к ((#configuring настройке)).
+
+[ [InstallPostgresToc <<] ] [ [nstallPostgresToc <] ] [ [CakeToc В начало] ] [ [CakeIntro >] ] [ [CakeIntro >>] ]
