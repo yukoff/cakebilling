@@ -1,6 +1,5 @@
 #summary Введение
-
-[CakeBaseInstall далее>>]
+[ [CakeToc <<] ] [ [CakeToc <] ] [ [CakeToc В начало] ] [ [CakeBaseInstall >] ] [ [CakeBaseInstall >>] ]
 
 ====А зачем?====
 
@@ -19,4 +18,4 @@
   * Интенсивность расхода траффика (часы, дни)
   * Объём израсходованного траффика (суммарный, пользователи) за заданный период
 
-[CakeBaseInstall далее>>]
+[ [CakeToc <<] ] [ [CakeToc <] ] [ [CakeToc В начало] ] [ [CakeBaseInstall >] ] [ [CakeBaseInstall >>] ]
