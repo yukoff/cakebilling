@@ -2,26 +2,25 @@
 
 [ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusFromSources <] ] [ [CakeToc В начало] ] [ [ConfiguringFreeRadius >] ] [ [InstallPppdPptpdToc >>] ]
 
-Экспортируем переменные:
-%%root@cake# export USE="postgres" %%
-
-Для работы биллинга необходимо выставлять USE флаг "+postgres" (если он у вас уже не стоит конечно).
+Для работы биллинга при сборке FreeRADIUS сервера необходимо выставить USE флаг *postgres* 
 
 Проверяем:
-%%root@cake# emerge -vp freeradius
+{{{
+root@cake#USE="postgres" emerge -vp freeradius
 
 These are the packages that I would merge, in order:
 
 Calculating dependencies ...done!
-[ebuild N ] net-dialup/freeradius-0.9.3-r1 -frascend -frlargefiles -frnothreds -frxp +postgres 0 kB
-
+[ebuild  N    ] net-dialup/freeradius-1.1.3-r2  USE="frxp kerberos ldap mysql pam postgres snmp ssl udpfromto -debug -edirectory -frascend -frnothreads" 2,996 kB
 Total size of downloads: 0 kB
 root@cake#
-%%
+}}}
 
-Устанавливаем **~FreeRADIUS**:
-%%root@cake# emerge freeradius%%
+Устанавливаем *FreeRADIUS*:
+{{{
+root@cake# USE="postgres" emerge freeradius
+}}}
 
-Переходим к ((#configuring настройке)).
+Переходим к [ConfiguringFreeRadius настройке].
 
 [ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusFromSources <] ] [ [CakeToc В начало] ] [ [ConfiguringFreeRadius >] ] [ [InstallPppdPptpdToc >>] ]
