@@ -1,25 +1,26 @@
 #summary Настройка PostgreSQL
 [ [InstallPostgresToc <<] ] [ [InstallPostgresInGentoo <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusToc >] ] [ [InstallFreeRadiusToc >>] ]
 
-Переключаемся на пользователя *postgres:*
+Переключаемся на пользователя *postgres*:
 {{{
 root@cake# su postgres
 }}}
 
-Добавляем нового пользователя:
+Добавляем нового пользователя *cake* в PostgreSQL:
 {{{
 postgres@cake$ createuser -P -D -A cake
 }}}
 
-!!Замечание!!
-По умолчанию в веб-интерфейсе для доступа в базу используется login: cake, password: cake. Учитывайте это при задании пароля.
+*Note:*
+По умолчанию в веб-интерфейсе для доступа в базу используется *login: cake, password: cake*. 
+Незабудьте изменить настройки web-интерфейса в случае выбора другого логина и пароля.
 
 Создаём базу данных (Обязательно в горячо любимой всеми нами кодировке *WIN1251*):
 {{{
 postgres@cake$ createdb -O cake -E WIN cake
 }}}
 
-Добавляем язык хранимых процедур *plpgsql:*
+Добавляем язык хранимых процедур *plpgsql*:
 {{{
 postgres@cake$ createlang plpgsql cake 
 }}}
@@ -30,33 +31,20 @@ postgres@cake$ wget http://cake.opennet.ru/cake-dump/cake.sql
 postgres@cake$ psql -Ucake -W -d cake -f cake.sql 
 }}}
 
-{{a name="verify"}}
 Проверяем права:
 {{{
 psql -Ucake cake -c "select * from cake.users;"
- id | login | name | pwd | balance | userblock | overtraffblock | ip_addr | id_tariff | grp
+    id |   login |  name | pwd   | balance  | userblock  | overtraffblock   | ip_addr  | id_tariff     | grp
 -----+-------+-------+------+---------+-----------+----------------+---------+-----------+-----
- 104 | admin | Admin | 1234 | 0.00 | f | t | 1 | 1 | 1
+ 104 | admin | Admin | 1234  | 0.00      |              f |                     t |           1 |              1 | 1
 (1 запись)
 }}}
 
 
-Закрываем сессию пользователя *postgres:*
+Закрываем сессию пользователя *postgres*:
 {{{
 postgres@cake$ exit
 }}}
 
-{{a name="note-i"}}
-!!Замечание!!
-По умолчанию поддержка *tcp/ip* протокола отключена.
-При включении ее *PostgreSQL* принимает подключения только от *localhost*.
-Если планируете установить *FreeRADIUS* на другой машине, вам необходимо добавить в
-*$PGDATA/pg_hba.conf*
-
-{{{
-# IPv4-style local connections:
-host all all 192.168.1.1 255.255.255.255 password
-}}}
-где *192.168.1.1* это *ip* адрес вашего *RADIUS* сервера. 
-
 [ [InstallPostgresToc <<] ] [ [InstallPostgresInGentoo <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusToc >] ] [ [InstallFreeRadiusToc >>] ]
+
