@@ -2,7 +2,7 @@
 
 [ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusToc <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusInGentoo >] ] [ [InstallPppdPptpdToc >>] ]
 
-Скачиваем тарбол с http://freeradius.org.
+Скачиваем тарбол с http://freeradius.org
 
 Распаковываем, запускаем *configure*:
 {{{
