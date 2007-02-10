@@ -2,7 +2,7 @@
 
 [ [InstallPostgresToc <<] ] [ [ConfiguringPostgres <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusFromSources >] ] [ [InstallPppdPptpdToc >>] ]
 
- * [InstalFreeRadiusFromSources Установка из исходников]
+ * [InstallFreeRadiusFromSources Установка из исходников]
  * [InstallFreeRadiusInGentoo Установка в Gentoo Linux]
  * [ConfiguringFreeRadius Настройка]
 
