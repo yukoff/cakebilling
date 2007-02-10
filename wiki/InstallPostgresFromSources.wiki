@@ -57,7 +57,7 @@ root@cake# export PATH="$PATH:/opt/postgresql/bin"
 root@cake# ldconfig
 }}}
 
-В результате если у вас получился рабочий PostgreSQL сервер, переходите к [ConfiguringPostgres настройке].
+Если в результате у вас все операции завершились без ошибок, то можно переходить к [ConfiguringPostgres настройке] PostgreSQL сервера.
 
 =====Примечание=====
 По умолчанию в PostgreSQL 7.x отключена поддержка tcp/ip протокола. При включении ее PostgreSQL принимает подключения только от *localhost*. Если планируете установить FreeRADIUS на другой машине, вам необходимо добавить в *$PGDATA/pg_hba.conf*
