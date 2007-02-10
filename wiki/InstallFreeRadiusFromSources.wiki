@@ -2,34 +2,35 @@
 
 [ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusToc <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusInGentoo >] ] [ [InstallPppdPptpdToc >>] ]
 
-Скачиваем тарбол с ((http://freeradius.org http://freeradius.org)).
+Скачиваем тарбол с http://freeradius.org.
 
-Распаковываем, запускаем **configure**:
-%%
+Распаковываем, запускаем *configure*:
+{{{
 root@cake#./configure --prefix=/opt/freeradius \
 --with-rlm-postgresql-lib-dir=/opt/postgresql/lib \
 --with-rlm-postgresql-include-dir=/opt/postgresql/include
-%%
+}}}
 
-!!Замечание!!
-указанные **--with-rlm-postgresql-lib-dir** и **--with-rlm-postgresql-include-dir** валидны только,
-если вы устанавливали **~PostgreSQL** из исходников в папку **/opt/postgresql**. Если вы ставили из портов или из пакетов,
-укажите другие каталоги. Или же можете не указывать вообще, если библиотеки и заголовочные файлы лежат в **/usr** или в **/usr/local**.
+*Note:*
+Указанные *--with-rlm-postgresql-lib-dir* и *--with-rlm-postgresql-include-dir* правильны только,
+если вы устанавливали *~PostgreSQL* из исходников в папку */opt/postgresql*. Если вы ставили из портов или из пакетов, укажите другие каталоги. Или же можете не указывать вообще, если библиотеки и заголовочные файлы лежат в */usr* или в */usr/local*.
 
-после того как **configure** отработал (надеюсь без ошибок), выполняем:
-%%root@cake# make all install%%
+После того как *configure* завершил работу, выполняем:
+{{{
+root@cake# make all install
+}}}
 
-Далее добавляем пользователя и группу от которых будет работать **~FreeRADIUS**:
-%%root@cake# groupadd radiusd
+Далее добавляем пользователя и группу от которых будет работать *FreeRADIUS*:
+{{{
+root@cake# groupadd radiusd
 root@cake# useradd -g radiusd -s /bash/bash radiusd
-%%
+}}}
 
-Изменяем права на **/opt/freeradius**:
-%%
+Изменяем права на */opt/freeradius*:
+{{{
 root@cake# chown -R radiusd:radiusd /opt/freeradius
-%%
+}}}
 
-После выполнения всех выше преведенных операций, получили установленный **~FreeRADIUS** сервер.
-Можно переходить к ((#configuring настройке)).
+Если в результате у вас все операции завершились без ошибок, то можно переходить к [ConfiguringFreeRadius настройке] FreeRADIUS сервера.
 
 [ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusToc <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusInGentoo >] ] [ [InstallPppdPptpdToc >>] ]
