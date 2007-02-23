@@ -3,11 +3,10 @@
 [ [InstallFreeRadiusToc <<] ] [ [InstallFreeRadiusInGentoo <] ] [ [CakeToc В начало] ] [ [InstallPppdPptpdToc >] ] [ [InstallPppdPptpdToc >>] ]
 
 
-Все переменные что не описаны в файлах удалите.
-Они не требуются для работы **~FreeRADIUS** с **pppd**.
+Все переменные что не описаны в файлах удалите. Они не требуются для работы *FreeRADIUS* с *pppd*.
 
-Сначала редактируем файл **etc/raddb/radiusd.conf**:
-%%
+Сначала редактируем файл *etc/raddb/radiusd.conf*:
+{{{
 ## some need locations variables
 
 # Различные файловые переменные.
@@ -51,7 +50,6 @@ cleanup_delay = 5
 # Максимальное количество запросов хранимых сервером. Это число должно быть равно количеству клиентов помноженному на 256.
 # К примеру для четырех клиентов оно будет 1024.
 max_requests = 5120
-
 
 #Использовать все доступные интерфейсы.
 bind_address = *
@@ -281,16 +279,16 @@ post-auth {
         reply_log
 }
 
-%%
+}}}
 
-!!Замечание!!
+*Note:*
 Грабли для 1.0.1. Скачайте архив конфигурационных файлов и из radiusd.conf возьмите секцию authenticate. Или возьмите ее из radiusd.conf установленного по умолчанию. Иначе получите очень странный баг.
 
 
-Далее переходим к **clients.conf** данный файл содержит конфигурацию о клиентах (**NAS**) работающих с **RADIUS** сервером.
+Далее переходим к *clients.conf* данный файл содержит конфигурацию о клиентах (*NAS*) работающих с *RADIUS* сервером.
 
-**clients.conf**:
-%%
+*clients.conf*:
+{{{
 # секция описывает клиента c ip адресом 127.0.0.1.
 # secret - секретное слово указывается еще на NAS желательно выбрать что-то отличное от test
 # shortname - короткое имя используемое в качестве псевдонима.
@@ -303,24 +301,24 @@ client 127.0.0.1 {
        nastype = other
 }
 
-%%
+}}}
 
-Скачиваем **dictionary.ppp**:
-%%
-  wget -c http://cake.opennet.ru/release/v1.0/dictionary/dictionary.ppp
-%%
+Скачиваем *dictionary.ppp*:
+{{{
+wget -c http://cake.opennet.ru/release/v1.0/dictionary/dictionary.ppp
+}}}
 
-!!Замечание!!
-dictionary.ppp так же содержится ((http://cake.opennet.ru/release/v1.0/etc/ в тарболе с файлами конфигурации)) .
+*Note:*
+dictionary.ppp так же содержится [http://cake.opennet.ru/release/v1.0/etc/ в тарболе с файлами конфигурации].
 
-Редактируем **dictionary**:
-%%
+Редактируем *dictionary*:
+{{{
 $INCLUDE /usr/share/freeradius/dictionary
 $INCLUDE /etc/raddb/dictionary.ppp
-%%
+}}}
 
-Редактируем **users**:
-%%
+Редактируем *users*:
+{{{
 # необходимо для авторизации через SQL.
 # при проведении авторизации через SQL раскоментируйте.
 # DEFAULT Auth-Type:=Local
@@ -341,22 +339,22 @@ test Auth-Type:=Local, User-Password == "test"
                 Framed-Routing = Broadcast-Listen,
                 Framed-Compression = None
                
-%%
+}}}
 
 После этих изменений проверяем конфигурационные файлы:
-%%
+{{{
 root@cake# check-radiusd-config
-%%
+}}}
 
 вы должны получить аналогичный ответ:
-%%
+{{{
 root@cake# check-radiusd-config: line 55: 19324 Killed $sbindir/radiusd -X -p 32768 >startup.log 2>&1
 Radius server configuration looks OK.
-%%
+}}}
 
-Запустите в одной из консолей **radiusd -X**. Далее переключитесь в соседнюю консоль и выполните:
+Запустите в одной из консолей *radiusd -X*. Далее переключитесь в соседнюю консоль и выполните:
 
-%%
+{{{
 root@cake# radtest test test 127.0.0.1 2 test
 Sending Access-Request of id 82 to 127.0.0.1:1812
         User-Name = "test"
@@ -373,28 +371,29 @@ rad_recv: Access-Accept packet from host 127.0.0.1:1812, id=82, length=108
         Acct-Interim-Interval = 60
         Framed-Routing = Broadcast-Listen
         Framed-Compression = None
-%%
+}}}
 
-Если вы увидели аналогичные сообщения. **RADIUS** сервер работает.
+Если вы увидели аналогичные сообщения. *RADIUS* сервер работает.
 
-!!Замечание!!
-Вы так же можете проверить работу с **pptpd**, для этого перейдите к его ((/install-ppp-pptpd установке и настройке)).
+*Note:*
+Вы так же можете проверить работу с *pptpd*, для этого перейдите к его [install-ppp-pptpd установке и настройке].
 
-После этого измените в **/etc/raddb/users**:
-%%
+После этого измените в */etc/raddb/users*:
+{{{
 # radtest
 #test Auth-Type:=Local, User-Password == "test"
 # Изменяем тип авторизации для pptpd
 test Auth-Type:=MS-CHAP, User-Password == "test"
-%%
-Далее подключаемся через **VPN** соединение к нашему **pptp** серверу.
+}}}
+
+Далее подключаемся через *VPN* соединение к нашему *pptp* серверу.
 
 Не забудьте отключить необходимость шифрования туннеля.
 
-Теперь осталось включить работу с **SQL** сервером. Вернемся к файлу **radiusd.conf** добавьте
-в ниже преведенные секции **cake_sql**:
+Теперь осталось включить работу с *SQL* сервером. Вернемся к файлу *radiusd.conf* добавьте
+в ниже преведенные секции *cake_sql*:
 
-%%
+{{{
 authorize {
         # включаем авторизацию через sql
         cake_sql
@@ -407,10 +406,10 @@ accounting {
         cake_sql
 }
 
-%%
+}}}
 
-Создайте файл **cakesql.conf** содержащий:
-%%
+Создайте файл *cakesql.conf* содержащий:
+{{{
 sql cake_sql{
 
         # Указываем драйвер для PostgreSQL
@@ -458,18 +457,17 @@ sql cake_sql{
 
 }
 
+}}}
 
-%%
+Снова запускаем *check-radiusd-config*. Если мы получили ответ:
 
-Снова запускаем **check-radiusd-config**. Если мы получили ответ:
-
-%%
+{{{
 Radius server configuration looks OK.
-%%
+}}}
 
-проверяем работоспособность **RADIUS** сервера, вы должны увидеть нечто подобное:
+Проверяем работоспособность *RADIUS* сервера, вы должны увидеть нечто подобное:
 
-%%
+{{{
 radiusd -X
 
 ....
@@ -480,37 +478,35 @@ rlm_sql (cake_sql): Attempting to connect rlm_sql_postgresql #0
 rlm_sql (cake_sql): Connected new DB handle, #0
 rlm_sql (cake_sql): starting 1
 ....
-%%
+}}}
 
 Если вы это не увидели проверьте доступность СУБД и т.п.
 
-Далее уберите в **radiusd.conf** опцию **auth_log** в секции **authorize**, опцию **detail** в секции **accounting** и
-опцию **reply_log** в секции **post-auth** они не требуются в рабочем состоянии сервера. Поскольку будут только ухудшать
-призводительность сервера.
+Далее уберите в *radiusd.conf* опцию *auth_log* в секции *authorize*, опцию *detail* в секции *accounting* и
+опцию *reply_log* в секции *post-auth* они не требуются в рабочем состоянии сервера. Поскольку будут только ухудшать призводительность сервера.
 
-Запустите **~FreeRADIUS** в рабочем режиме.
+Запустите *FreeRADIUS* в рабочем режиме.
 
 Для Gentoo Linux:
 
-%%
+{{{
 root@cake# cd /etc/init.d/
 root@cake# ./radiusd start
-%%
+}}}
 
-Добавляем в автозагрузку
-%%
+Добавляем в автозагрузку:
+{{{
 root@cake# rc-update add radiusd default
-%%
+}}}
 
 Для других платформ:
 
-При установке в **/opt/freeradius/sbin** помещается скрипт **rc.radiusd**.
+При установке в */opt/freeradius/sbin* помещается скрипт *rc.radiusd*.
 Запускаем в рабочем режиме:
-
-%%
+{{{
 root@cake# cd /opt/freeradiusd/sbin
 root@cake# ./rc.radiusd
-%%
+}}}
 
 Не забудьте поместить в автозагрузку этот скрипт.
 
