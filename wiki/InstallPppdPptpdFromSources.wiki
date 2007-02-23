@@ -32,7 +32,8 @@ root@cake# make install-etcppp
 В каталог /usr/local/man соответсвующие им man страницы.
 В каталоге /etc/ppp будут размещены настройки по умолчанию.
 
-Файлы используемые RADIUS плагином необходимо установить вручную. Перед этим создадим каталог /etc/radiusclient:
+Файлы используемые RADIUS плагином необходимо установить вручную. 
+Перед этим создадим каталог /etc/radiusclient:
 {{{
 mkdir /etc/radiusclient
 }}}
@@ -43,8 +44,7 @@ cd pppd/plugins/radius/etc
 cp * /etc/radiusclient
 }}}
 
-Далее необходимо изменить пути в файле **radiusclient.conf**. К примеру с **issue /usr/local/etc/radiusclient/issue**
-на **issue /etc/radiusclient/issue**. Эту операцию необходимо проделать для всех файлов находящихся в **/etc/radiusclient**.
+Далее необходимо изменить пути в файле **radiusclient.conf**. К примеру с **issue /usr/local/etc/radiusclient/issue** на **issue /etc/radiusclient/issue**. Эту операцию необходимо проделать для всех файлов находящихся в **/etc/radiusclient**.
 
 Если вам требуется поддержка MPPE/MPPC то еще требуется паложить патч на ядро [http://www.polbox.com/h/hs001/].
 Скачиваем патч для вашей версии ядра:
@@ -76,8 +76,7 @@ root@cake# make modules_install
 root@cake# make install
 }}}
 
-Если все прошло нормально, можно попробовать загрузить модуль. Если поддержка MPPE была включена как модуль,
-и версия ядра не изменялась систему можно не перегружать. Достаточно выполнить
+Если все прошло нормально, можно попробовать загрузить модуль. Если поддержка MPPE была включена как модуль, и версия ядра не изменялась систему можно не перегружать. Достаточно выполнить
 
 {{{
 root@cake# depmod -a
@@ -88,6 +87,7 @@ root@cake# lsmod|grep ppp_mppe_mppc
 }}}
 
 Далее добавьте необходимые модули в автозагрузку.
+
 Переходим к установке pptpd.
 
 Скачиваем тарбол **pptpd** с ((http://prdownloads.sourceforge.net/poptop/pptpd-1.1.4-b4.tar.gz?download)).
