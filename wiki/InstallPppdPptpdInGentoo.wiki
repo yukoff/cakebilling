@@ -1,5 +1,7 @@
 #summary Установка pppd и pptpd в Gentoo
 
+[ [InstallPppdPptpdToc <<] ] [ [InstallPppdPptpdFromSources <] ] [ [CakeToc В начало] ] [ [ConfiguringPppdPptpd >] ] [ [InstallResinToc >>] ]
+
 Устанавливаем *ppp*:
 {{{
 root@cake# USE="radius" emerge ppp
@@ -13,3 +15,5 @@ root@cake# USE="radius" emerge ppp
 {{{
 root@cake# emerge pptpd
 }}}
+
+[ [InstallPppdPptpdToc <<] ] [ [InstallPppdPptpdFromSources <] ] [ [CakeToc В начало] ] [ [ConfiguringPppdPptpd >] ] [ [InstallResinToc >>] ]
