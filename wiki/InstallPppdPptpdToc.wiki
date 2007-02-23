@@ -1,4 +1,4 @@
-#summary Установка ppp+pptpd
+#summary Установка ppp и pptpd
 
 [ [InstallFreeRadiusToc <<] ] [ [ConfiguringFreeRadius <] ] [ [CakeToc В начало] ] [ [InstallPppdPptpdFromSources >] ] [ [InstallResinToc >>] ]
 
