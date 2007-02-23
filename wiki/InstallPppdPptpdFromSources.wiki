@@ -1,3 +1,5 @@
+#summary Установка pppd и pptpd из исходников
+
 [ [InstallPppdPptpdToc <<] ] [ [InstallPppdPptpdToc <] ] [ [CakeToc В начало] ] [ [InstallPppdPptpdInGentoo >] ] [ [InstallResinToc >>] ]
 
 В ppp-2.4.3 поддержка RADIUS плагина, а так же лимитирования и поддержки MPPE и MSCHAP включено по умолчанию. Дополнительно включать ничего не требуется.
