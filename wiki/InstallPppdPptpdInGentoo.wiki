@@ -1,3 +1,5 @@
+#summary Установка pppd и pptpd в Gentoo
+
 Устанавливаем *ppp*:
 {{{
 root@cake# USE="radius" emerge ppp
