@@ -1,6 +1,7 @@
+#summary Настройка pppd и pptpd
+
 [ [InstallPppdPptpdToc <<] ] [ [InstallPppdPptpdInGentoo <] ] [ [CakeToc В начало] ] [ [InstallResinToc >] ] [ [InstallResinToc >>] ]
 
-#summary Настройка pppd и pptpd 
 
 Первым насторим **radiusclient** для работы с нашим **~FreeRADIUS** сервером.
 
