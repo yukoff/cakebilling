@@ -14,7 +14,7 @@
  * [InstallPostgresToc Установка PostgreSQL]
  * [InstallFreeRadiusToc Установка FreeRADIUS]
  * [InstallPppdPptpdToc Установка ppp+pptpd]
- * Установка Resin
+ * [InstallResinToc Установка Resin]
  * Установка web-app администраторского интерфейса
 
 [ << ] [ < ] [ [CakeToc В начало] ] [ [annonce >] ] [ [annonce >>] ]
