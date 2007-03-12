@@ -2,7 +2,7 @@
 
 [ [InstallResinToc <<] ] [ [InstallResinToc <] ] [ [CakeToc В начало] ] [ [InstallResinInGentoo >] ] [ [InstallWebappToc >>] ]
 
-Скачиваем тарбол *resin* с [caucho.com http://caucho.com/]:
+Скачиваем тарбол *resin* с [http://caucho.com/ caucho.com]:
 
 {{{
 root@cake# wget http://caucho.com/download/resin-3.0.14.tar.gz
