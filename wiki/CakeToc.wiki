@@ -13,7 +13,7 @@
 
  * [InstallPostgresToc Установка PostgreSQL]
  * [InstallFreeRadiusToc Установка FreeRADIUS]
- * Установка ppp+pptpd
+ * [InstallPppdPptpdToc Установка ppp+pptpd]
  * Установка Resin
  * Установка web-app администраторского интерфейса
 
