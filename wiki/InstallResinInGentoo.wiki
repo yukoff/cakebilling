@@ -1,6 +1,6 @@
 #summary Установка Resin в Gentoo
 
-[ [InstallResinToc <<] ] [ [InstallResinFromSources <] ] [ [CakeToc В начало] ] [ [ConfiguringResin >] ] [ [InstallWebappToc >>] ]
+[ [InstallResinToc <<] ] [ [InstallResinFromSources <] ] [ [CakeToc В начало] ] [ [InstallWebapp >] ] [ [InstallWebapp >>] ]
 
 Устанавливаем *Resin*:
 {{{
@@ -21,4 +21,4 @@ root@cake# rc-update add resin default
 
 *Web-app* в каждом сервере настраивается в соответствии со спецификой этого сервера.
 
-[ [InstallResinToc <<] ] [ [InstallResinFromSources <] ] [ [CakeToc В начало] ] [ [ConfiguringResin >] ] [ [InstallWebappToc >>] ]
+[ [InstallResinToc <<] ] [ [InstallResinFromSources <] ] [ [CakeToc В начало] ] [ [InstallWebapp >] ] [ [InstallWebapp >>] ]
