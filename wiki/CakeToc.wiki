@@ -15,6 +15,6 @@
  * [InstallFreeRadiusToc Установка FreeRADIUS]
  * [InstallPppdPptpdToc Установка ppp+pptpd]
  * [InstallResinToc Установка Resin]
- * Установка web-app администраторского интерфейса
+ * [InstallWebapp Установка web-app администраторского интерфейса]
 
 [ << ] [ < ] [ [CakeToc В начало] ] [ [annonce >] ] [ [annonce >>] ]
