@@ -1,6 +1,6 @@
 #summary Установка Resin web server из исходников
 
-[ [InstallResinToc <<] ] [ [InstallResinToc <] ] [ [CakeToc В начало] ] [ [InstallResinInGentoo >] ] [ [InstallWebappToc >>] ]
+[ [InstallResinToc <<] ] [ [InstallResinToc <] ] [ [CakeToc В начало] ] [ [InstallResinInGentoo >] ] [ [InstallWebapp >>] ]
 
 Скачиваем тарбол *resin* с [http://caucho.com/ caucho.com]:
 
@@ -53,4 +53,4 @@ make all install
 После запуска сервера зайдите по адресу *`http://ваш-ip:8080/`*. 
 Если вы все правильно сделали вы должны будете увидеть страничку документации сервера *resin*.
 
-[ [InstallResinToc <<] ] [ [InstallResinToc <] ] [ [CakeToc В начало] ] [ [InstallResinInGentoo >] ] [ [InstallWebappToc >>] ]
+[ [InstallResinToc <<] ] [ [InstallResinToc <] ] [ [CakeToc В начало] ] [ [InstallResinInGentoo >] ] [ [InstallWebapp >>] ]
