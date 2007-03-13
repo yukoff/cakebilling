@@ -29,9 +29,9 @@ cd /etc/init.d
 *Note:*
 Команды приведены для Gentoo Linux. Если у вас используется другой дистрибутив или операционная система то ознакомтесь с документацией для выполнения аналогичных действий.
 
-Далее скачайте [http://cake.opennet.ru/release/v1.0.1rc/cake-dump/patch/patch.sql patch.sql]:
+Далее скачайте [http://cakebilling.googlecode.com/files/cake-upgrade-v1.0-v1.0.1.rc.sql скрипт]:
 {{{
-wget -c http://cake.opennet.ru/release/v1.0.1rc/cake-dump/patch/patch.sql
+wget -c http://cakebilling.googlecode.com/files/cake-upgrade-v1.0-v1.0.1.rc.sql
 }}}
 
 Затем запустите следующую команду:
