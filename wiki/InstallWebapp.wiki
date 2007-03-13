@@ -4,7 +4,7 @@
 
 Скачиваем war архив с web-app интерфейсом
 {{{
-root@cake# wget http://cake.opennet.ru/release/v1.0/web/cake.war
+root@cake# wget http://cakebilling.googlecode.com/files/cake.war
 }}}
 
 Копируем war архив в */opt/resin/webapps*, меняем права
