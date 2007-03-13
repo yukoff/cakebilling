@@ -28,12 +28,10 @@
 {{{
 #accounting_start_query = "insert into cake.session (sid, id_user) \
 #values ('%{Acct-Unique-Session-Id}', cake.str2uid('%{SQL-User-Name}'))"
-
 accounting_start_query = "select cake.start_session('%{Acct-Unique-Session-Id}','%{SQL-User-Name}')"
 
 #accounting_stop_query = "update cake.session set svolumeout=%{Acct-Input-Octets}, svolume=%{Acct-Output-Octets}, \
 #s_end=current_timestamp where id=cake.str2sid('%{Acct-Unique-Session-Id}')"
-
 accounting_stop_query = "select cake.stop_session(%{Acct-Input-Octets},%{Acct-Output-Octets},'%{Acct-Unique-Session-Id}')"
 
 }}}
