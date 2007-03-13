@@ -281,10 +281,6 @@ post-auth {
 
 }}}
 
-*Note:*
-Грабли для 1.0.1. Скачайте архив конфигурационных файлов и из radiusd.conf возьмите секцию authenticate. Или возьмите ее из radiusd.conf установленного по умолчанию. Иначе получите очень странный баг.
-
-
 Далее переходим к *clients.conf* данный файл содержит конфигурацию о клиентах (*NAS*) работающих с *RADIUS* сервером.
 
 *clients.conf*:
@@ -305,11 +301,11 @@ client 127.0.0.1 {
 
 Скачиваем *dictionary.ppp*:
 {{{
-wget -c http://cake.opennet.ru/release/v1.0/dictionary/dictionary.ppp
+wget -c http://cakebilling.googlecode.com/files/dictionary.ppp
 }}}
 
 *Note:*
-dictionary.ppp так же содержится [http://cake.opennet.ru/release/v1.0/etc/ в тарболе с файлами конфигурации].
+dictionary.ppp так же содержится [http://cakebilling.googlecode.com/files/etc.tar.bz2 в тарболе с файлами конфигурации].
 
 Редактируем *dictionary*:
 {{{
