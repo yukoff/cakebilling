@@ -36,16 +36,16 @@ wget -c http://cakebilling.googlecode.com/files/cake-upgrade-v1.0-v1.0.1.rc.sql
 
 Затем запустите следующую команду:
 {{{
-psql -Ucake cake < patch.sql
+psql -Ucake cake < cake-upgrade-v1.0-v1.0.1.rc.sql
 }}}
 
 Если в результате обновления не произошло никаких ошибок, то обновление базы данных прошло успешно. Перейдем к модификации конфигурации FreeRADIUS сервера.
 
 ===Изменение конфигурации FreeRADIUS сервера===
-С изменениями в конфигурации FreeRADIUS сервера вы можете ознакомиться [http://npj.ru/cake/changelog#h38339-4 тут]. Модификация необходима из-за добавления функции автоматической очистки таблицы keepalive. По умолчанию удаляются записи старше 30 дней. Изменить этот параметр можно в разделе *"Настройки"*. Для модификации настройки FreeRADIUS сервера скачайте измененный файл конфигурации:
+С изменениями в конфигурации FreeRADIUS сервера вы можете ознакомиться [ChangeLog тут]. Модификация необходима из-за добавления функции автоматической очистки таблицы keepalive. По умолчанию удаляются записи старше 30 дней. Изменить этот параметр можно в разделе *"Настройки"*. Для модификации настройки FreeRADIUS сервера скачайте измененный файл конфигурации:
 
 {{{
-wget -c http://cake.opennet.ru/release/v1.0.1rc/etc/raddb/cakesql.conf
+wget -c http://cakebilling.googlecode.com/files/cakesql.conf
 }}}
 
 Затем замените старый файл *cakesql.conf* на новый:
@@ -59,7 +59,7 @@ cp cakesql.conf /etc/raddb/cakesql.conf
 Сначала необходимо скачать новую версию web-интерфейса:
 
 {{{
-wget -c http://cake.opennet.ru/release/v1.0.1rc/web/cake.war
+wget -c http://cakebilling.googlecode.com/files/cake-1.0.1rc.war
 }}}
 
 Сохраните настройки веб-интерфейса:
