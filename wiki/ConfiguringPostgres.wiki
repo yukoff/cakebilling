@@ -27,7 +27,7 @@ postgres@cake$ createlang plpgsql cake
 
 Загружаем и экспортируем схему базы и начальные данные:
 {{{
-postgres@cake$ wget http://cake.opennet.ru/cake-dump/cake.sql
+postgres@cake$ wget http://cakebilling.googlecode.com/files/cake.sql
 postgres@cake$ psql -Ucake -W -d cake -f cake.sql 
 }}}
 
@@ -47,4 +47,3 @@ postgres@cake$ exit
 }}}
 
 [ [InstallPostgresToc <<] ] [ [InstallPostgresInGentoo <] ] [ [CakeToc В начало] ] [ [InstallFreeRadiusToc >] ] [ [InstallFreeRadiusToc >>] ]
-
