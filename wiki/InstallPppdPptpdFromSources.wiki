@@ -4,7 +4,7 @@
 
 В ppp-2.4.3 поддержка RADIUS плагина, а так же лимитирования и поддержки MPPE и MSCHAP включено по умолчанию. Дополнительно включать ничего не требуется.
 
-Скачиваем тарбол *ppp* с [ftp://ftp.samba.org/pub/ppp/ppp-2.4.3.tar.gz]:
+Скачиваем тарбол *ppp* с [ftp://ftp.samba.org/pub/]:
 {{{
 root@cake# wget ftp://ftp.samba.org/pub/ppp/ppp-2.4.3.tar.gz
 }}}
