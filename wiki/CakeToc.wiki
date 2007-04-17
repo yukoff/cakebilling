@@ -5,7 +5,7 @@
 = Вводная часть =
 
  * [annonce Анонс, введение, возможности]
- * [CakeBaseInstall Что необходимо для инсталляции]
+ * [CakeBaseInstall Что необходимо для установки]
  * [CakeIntro А как Cake работает?]
  * [CakeInstallHowto Порядок установки]
 
