@@ -7,12 +7,12 @@
 Распаковываем, запускаем *configure*:
 {{{
 root@cake#./configure --prefix=/opt/freeradius \
---with-rlm-postgresql-lib-dir=/opt/postgresql/lib \
---with-rlm-postgresql-include-dir=/opt/postgresql/include
+--with-rlm-sql-postgresql-lib-dir=/opt/postgresql/lib \
+--with-rlm-sql-postgresql-include-dir=/opt/postgresql/include
 }}}
 
 *Note:*
-Указанные *--with-rlm-postgresql-lib-dir* и *--with-rlm-postgresql-include-dir* правильны только,
+Указанные *--with-rlm-sql-postgresql-lib-dir* и *--with-rlm-sql-postgresql-include-dir* правильны только,
 если вы устанавливали *~PostgreSQL* из исходников в папку */opt/postgresql*. Если вы ставили из портов или из пакетов, укажите другие каталоги. Или же можете не указывать вообще, если библиотеки и заголовочные файлы лежат в */usr* или в */usr/local*.
 
 После того как *configure* завершил работу, выполняем:
