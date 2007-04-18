@@ -3,7 +3,7 @@
 [ [annonce <<] ] [ [CakeIntro <] ] [ [CakeToc В начало] ] [ [InstallPostgresToc >] ] [ [InstallPostgresToc >>] ]
 ====Порядок установки====
 
-  * Берём машину с *nix
+  * Берём машину с `*`nix
   * Разбираемся, [CakeIntro как работает биллинг]
   * Устанавливаем и настраиваем PostgreSQL сервер
   * Загружем схему базы данных в PostgreSQL сервер
