@@ -8,14 +8,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <syslog.h>
-#include "common.h"
+#include "destinations.h"
 
 //! структура элемента очереди трафика
 struct traffic_item {
-	struct in_addr caddr; //!< адрес клиента
 	__u64 in_traffic; //!< входящий трафик
 	__u64 out_traffic; //!< исходящий трафик
-	time_t timestamp; //!< время последнего обновления
 	__u32 service_type; //!< тип направления
 	struct traffic_item *prev; //!< предыдущий элемент
 	struct traffic_item *next; //!< следующий элемент
@@ -24,7 +22,6 @@ struct traffic_item {
 //! очередь трафика
 struct fifo {
     unsigned long long count; //!< счетчик количества элементов в очереди
-    time_t timestamp; //!< время последнего обновления
 	struct traffic_item *first; //!< голова очереди
 	struct traffic_item *curr; //!< текущий элемент очереди
 	struct traffic_item *last; //!< хвост очереди
@@ -66,7 +63,7 @@ struct fifo *copy_fifo(struct fifo *manage_fifo);
 При удачном завершении устанавливает указатель очереди manage_fifo->curr и возвращает его.
 При неудачном завершении возвращает NULL.
 */
-struct traffic_item *search_fifo(struct fifo *manage_fifo, in_addr_t caddr, __u32 service_type);
+struct traffic_item *search_fifo(struct fifo *manage_fifo, __u32 service_type);
 
 /*! \brief очищает очередь.
 
