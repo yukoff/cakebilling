@@ -7,7 +7,6 @@ struct fifo *init_fifo() {
 		manage_fifo->curr=NULL;
 		manage_fifo->last=NULL;
 		manage_fifo->count=0;
-		manage_fifo->timestamp = time(NULL);
 	}
 	return manage_fifo;
 }
@@ -19,7 +18,6 @@ struct traffic_item *push_fifo(struct fifo *manage_fifo) {
 
 	if (push_item == NULL) return push_item;
 
-	push_item->caddr.s_addr=0;
 	push_item->service_type=0;
 	push_item->in_traffic=0;
 	push_item->out_traffic=0;
@@ -69,14 +67,14 @@ struct traffic_item *pop_fifo(struct fifo *manage_fifo) {
 	return pop_item;
 }
 
-struct traffic_item *search_fifo(struct fifo *manage_fifo, in_addr_t caddr,__u32 service_type) {
+struct traffic_item *search_fifo(struct fifo *manage_fifo, __u32 service_type) {
 
 	manage_fifo->curr=manage_fifo->first;
 
 	if (manage_fifo->curr == NULL) return manage_fifo->curr;
 
 	do {
-		if ((manage_fifo->curr->caddr.s_addr == caddr) && (manage_fifo->curr->service_type == service_type)) {
+		if (manage_fifo->curr->service_type == service_type) {
 			break;
 		}
 		else {
@@ -88,16 +86,28 @@ struct traffic_item *search_fifo(struct fifo *manage_fifo, in_addr_t caddr,__u32
 	return manage_fifo->curr;
 }
 
+void add_traffic_to_fifo_item(struct traffic_item *index, unsigned long int caddr, int service_type, __u64 traffic, int order) {
+
+	if (index->service_type != service_type){
+		index->service_type = service_type;
+	}
+
+    if (order == INCOMING ){
+		index->in_traffic += traffic;
+    }
+    else {
+		index->out_traffic += traffic;
+    }
+}
+
 struct fifo *copy_fifo(struct fifo *manage_fifo) {
 	struct fifo *newfifo;
 	struct traffic_item *newfifo_item;
 
 	newfifo = init_fifo();
-	newfifo->timestamp = manage_fifo->timestamp;
 	manage_fifo->curr = manage_fifo->first;
 	while (manage_fifo->curr != NULL) {
 		newfifo_item = push_fifo(newfifo);
-		newfifo_item->caddr = manage_fifo->curr->caddr;
 		newfifo_item->service_type = manage_fifo->curr->service_type;
 		newfifo_item->in_traffic = manage_fifo->curr->in_traffic;
 		newfifo_item->out_traffic = manage_fifo->curr->out_traffic;

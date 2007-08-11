@@ -7,23 +7,41 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <pthread.h>
 #include <arpa/inet.h>
 #include "llheader.h"
 #include "fifo.h"
+#include "destinations.h"
+
+struct fifo *tfifo;
+struct destinations_list *destinations;
+struct in_addr client_ip;
+pthread_t pcap_tid;
+
+int count = 1;                   /* packet counter */
+int num_packets = 10;			/* number of packets to capture */
+pcap_t *handle;				/* packet capture handle */
 
 void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet);
+
+void collector_routine(void *arg){
+	/* now we can set our callback function */
+	fprintf(stdout,"Run capture thread\n");
+	pcap_loop(handle, num_packets, got_packet, NULL);
+	pthread_exit(NULL);
+}
 
 /*
  * dissect/print packet
  */
 void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet) {
-
-	static int count = 1;                   /* packet counter */
 	
 	/* declare pointers to packet headers */
 	const struct sll_header *ll_header;
 	const struct sniff_ip *ip;              /* The IP header */
-
+	int service_type = 1;
+	struct traffic_item *node=NULL;
+	
 	int size_ip;
 	
 	printf("\nPacket number %d:\n", count);
@@ -42,6 +60,20 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 		return;
 	}
 
+	if (ip->ip_src.s_addr == client_ip.s_addr) {
+		node=search_fifo(tfifo,service_type);
+		if (node == NULL) {
+			node = push_fifo(tfifo);
+		}
+		add_traffic_to_fifo_item(node,service_type,header->len - SLL_HDR_LEN,INCOMING);		
+	}
+	if (ip->ip_dst.s_addr == client_ip.s_addr) {
+		node=search_fifo(tfifo,service_type);
+		if (node == NULL) {
+			node = push_fifo(tfifo);
+		}
+		add_traffic_to_fifo_item(node,service_type,header->len - SLL_HDR_LEN,OUTGOING);				
+	}
 	printf("IP Packet length: %d\n",size_ip);
 	/* print source and destination IP addresses */
 	printf("       From: %s\n", inet_ntoa(ip->ip_src));
@@ -54,20 +86,24 @@ int main(int argc, char **argv) {
 
 	char *dev = NULL;			/* capture device name */
 	char errbuf[PCAP_ERRBUF_SIZE];		/* error buffer */
-	pcap_t *handle;				/* packet capture handle */
 
 	char filter_exp[] = "ip";		/* filter expression [3] */
 	struct bpf_program fp;			/* compiled filter program (expression) */
 	bpf_u_int32 mask;			/* subnet mask */
 	bpf_u_int32 net;			/* ip */
-	int num_packets = 10;			/* number of packets to capture */
-
+	int ret;
 
 	/* check for capture device name on command-line */
-	if (argc == 2) {
+	if (argc == 3) {
 		dev = argv[1];
+		if (inet_aton(argv[2],&client_ip) == 0) {
+			fprintf(stderr,"error: ip address %s not valid\n",argv[2]);
+		}
+		else {
+			fprintf(stdout,"Used ip address: %s\n",argv[2]);
+		}
 	}
-	else if (argc > 2) {
+	else if (argc > 3) {
 		fprintf(stderr, "error: unrecognized command-line options\n\n");
 		exit(EXIT_FAILURE);
 	}
@@ -120,10 +156,11 @@ int main(int argc, char **argv) {
 		    filter_exp, pcap_geterr(handle));
 		exit(EXIT_FAILURE);
 	}
+	tfifo = init_fifo();
 
-	/* now we can set our callback function */
-	pcap_loop(handle, num_packets, got_packet, NULL);
-
+	ret = pthread_create(&pcap_tid, NULL, collector_routine, NULL);
+	
+	while (count < 10) {};
 	/* cleanup */
 	pcap_freecode(&fp);
 	pcap_close(handle);
