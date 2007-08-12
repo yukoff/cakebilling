@@ -1,6 +1,6 @@
 #include "fifo.h"
 
-struct fifo *init_fifo() {
+struct fifo *create_fifo() {
 	struct fifo *manage_fifo = (struct fifo *)malloc(sizeof(struct fifo));
 	if (manage_fifo != NULL) {
 		manage_fifo->first=NULL;
@@ -104,7 +104,7 @@ struct fifo *copy_fifo(struct fifo *manage_fifo) {
 	struct fifo *newfifo;
 	struct traffic_item *newfifo_item;
 
-	newfifo = init_fifo();
+	newfifo = create_fifo();
 	manage_fifo->curr = manage_fifo->first;
 	while (manage_fifo->curr != NULL) {
 		newfifo_item = push_fifo(newfifo);
