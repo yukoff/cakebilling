@@ -11,10 +11,10 @@
 #include <arpa/inet.h>
 #include "llheader.h"
 #include "fifo.h"
-#include "destinations.h"
+#include "networks.h"
 
 struct fifo *tfifo;
-struct destinations_list *destinations;
+struct networks_list *networks;
 struct in_addr client_ip;
 pthread_t pcap_tid;
 
@@ -156,7 +156,7 @@ int main(int argc, char **argv) {
 		    filter_exp, pcap_geterr(handle));
 		exit(EXIT_FAILURE);
 	}
-	tfifo = init_fifo();
+	tfifo = create_fifo();
 
 	ret = pthread_create(&pcap_tid, NULL, collector_routine, NULL);
 	

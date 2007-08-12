@@ -3,28 +3,32 @@
 \brief заголовочный файл модуля управления очередями трафика fifo.c
 
 */
-#define FIFO_H 1
+#define FIFO_H
 
 #include <stdio.h>
 #include <string.h>
 #include <syslog.h>
-#include "destinations.h"
+#include <netinet/in.h>
+#include <asm/types.h>
 
-//! структура элемента очереди трафика
+//! значения используемые для определения направления трафика
+#define OUTGOING 0
+#define INCOMING 1
+//! структура элемента трафик направления
 struct traffic_item {
+	__u32 service_type; //!< тип направления
 	__u64 in_traffic; //!< входящий трафик
 	__u64 out_traffic; //!< исходящий трафик
-	__u32 service_type; //!< тип направления
 	struct traffic_item *prev; //!< предыдущий элемент
 	struct traffic_item *next; //!< следующий элемент
 };
 
-//! очередь трафика
+//! список с трафиком направлений
 struct fifo {
-    unsigned long long count; //!< счетчик количества элементов в очереди
-	struct traffic_item *first; //!< голова очереди
-	struct traffic_item *curr; //!< текущий элемент очереди
-	struct traffic_item *last; //!< хвост очереди
+    unsigned long long count; //!< количество направлений в списке
+	struct traffic_item *first; //!< начало списка
+	struct traffic_item *curr; //!< текущий элемент списка
+	struct traffic_item *last; //!< конец списка
 };
 
 /*! \brief инициализация очереди трафика
