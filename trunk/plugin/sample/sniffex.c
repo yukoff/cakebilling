@@ -10,10 +10,10 @@
 #include <pthread.h>
 #include <arpa/inet.h>
 #include "llheader.h"
-#include "fifo.h"
+#include "traffic.h"
 #include "networks.h"
 
-struct fifo *tfifo;
+struct traffic_list *traffic;
 struct networks_list *networks;
 struct in_addr client_ip;
 pthread_t pcap_tid;
@@ -61,18 +61,18 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	}
 
 	if (ip->ip_src.s_addr == client_ip.s_addr) {
-		node=search_fifo(tfifo,service_type);
+		node=search_traffic_list(traffic,service_type);
 		if (node == NULL) {
-			node = push_fifo(tfifo);
+			node = add_item_traffic_list(traffic);
 		}
-		add_traffic_to_fifo_item(node,service_type,header->len - SLL_HDR_LEN,INCOMING);		
+		add_count_traffic_item(node,service_type,header->len - SLL_HDR_LEN,INCOMING);		
 	}
 	if (ip->ip_dst.s_addr == client_ip.s_addr) {
-		node=search_fifo(tfifo,service_type);
+		node=search_traffic_list(traffic,service_type);
 		if (node == NULL) {
-			node = push_fifo(tfifo);
+			node = add_item_traffic_list(traffic);
 		}
-		add_traffic_to_fifo_item(node,service_type,header->len - SLL_HDR_LEN,OUTGOING);				
+		add_count_traffic_item(node,service_type,header->len - SLL_HDR_LEN,OUTGOING);				
 	}
 	printf("IP Packet length: %d\n",size_ip);
 	/* print source and destination IP addresses */
@@ -156,7 +156,7 @@ int main(int argc, char **argv) {
 		    filter_exp, pcap_geterr(handle));
 		exit(EXIT_FAILURE);
 	}
-	tfifo = create_fifo();
+	traffic = create_traffic_list();
 
 	ret = pthread_create(&pcap_tid, NULL, collector_routine, NULL);
 	
