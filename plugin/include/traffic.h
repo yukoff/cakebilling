@@ -1,9 +1,9 @@
-#ifndef FIFO_H
+#ifndef TRAFFIC_H
 /*! \file
-\brief заголовочный файл модуля управления очередями трафика fifo.c
+\brief заголовочный файл модуля управления очередями трафика traffic.c
 
 */
-#define FIFO_H
+#define TRAFIC_H
 
 #include <stdio.h>
 #include <string.h>
@@ -24,7 +24,7 @@ struct traffic_item {
 };
 
 //! список с трафиком направлений
-struct fifo {
+struct traffic_list {
     unsigned long long count; //!< количество направлений в списке
 	struct traffic_item *first; //!< начало списка
 	struct traffic_item *curr; //!< текущий элемент списка
@@ -33,12 +33,12 @@ struct fifo {
 
 /*! \brief инициализация очереди трафика
 
-Выделяет область памяти размером struct fifo, далее инициализрует все указатели значением NULL
+Выделяет область памяти размером struct traffic_list, далее инициализрует все указатели значением NULL
 и выставляет счетчик элементов очереди в 0.\n
 При удачном завершении возвращает указатель на созданную очередь трафика.\n
 При неудачном завершении возвращает NULL.
 */
-struct fifo *init_fifo();
+struct traffic_list *create_traffic_list();
 
 /*! \brief добавляет элемент в хвост очереди
 
@@ -47,7 +47,7 @@ struct fifo *init_fifo();
 При удачном завершении возвращает указатель на новый элемент очереди.\n
 При неудачном завершении возвращает NULL.
 */
-struct traffic_item *push_fifo(struct fifo *manage_fifo);
+struct traffic_item *add_item_traffic_list(struct traffic_list *traffic_list);
 
 /*! \brief удаляет элемент из начала очереди
 
@@ -56,10 +56,7 @@ struct traffic_item *push_fifo(struct fifo *manage_fifo);
 При удачном завершении и не пустой очереди возвращает указатель на копию удаленного элемента очереди.\n
 При неудачном завершении или пустой очереди возвращает NULL
 */
-struct traffic_item *pop_fifo(struct fifo *manage_fifo);
-
-//! создает копию очереди
-struct fifo *copy_fifo(struct fifo *manage_fifo);
+int del_item_traffic_list(struct traffic_list *traffic_list);
 
 /*! \brief поиск элемента по адресу клиента и типу сервиса
 
@@ -67,12 +64,12 @@ struct fifo *copy_fifo(struct fifo *manage_fifo);
 При удачном завершении устанавливает указатель очереди manage_fifo->curr и возвращает его.
 При неудачном завершении возвращает NULL.
 */
-struct traffic_item *search_fifo(struct fifo *manage_fifo, __u32 service_type);
+struct traffic_item *search_traffic_list(struct traffic_list *traffic_list, __u32 service_type);
 
 /*! \brief очищает очередь.
 
 Осуществляет очистку очереди manage_fifo от элементов.
 */
-void flush_fifo(struct fifo *manage_fifo);
+int destroy_network_list(struct traffic_list *traffic_list);
 
 #endif
