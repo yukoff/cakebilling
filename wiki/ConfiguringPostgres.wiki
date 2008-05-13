@@ -36,7 +36,7 @@ postgres@cake$ psql -Ucake -W -d cake -f cake.sql
 psql -Ucake cake -c "select * from cake.users;"
     id |   login |  name | pwd   | balance  | userblock  | overtraffblock   | ip_addr  | id_tariff     | grp
 -----+-------+-------+------+---------+-----------+----------------+---------+-----------+-----
- 104 | admin | Admin | 1234  | 0.00      |              f |                     t |           1 |              1 | 1
+ 104 | admin | Admin | 1234  | 0.00      |              f |                     t |           2 |              1 | 1
 (1 запись)
 }}}
 
