@@ -213,7 +213,7 @@ modules {
         # Многие NAS повторно используют Acct-Session-ID.
         # key перечисление аттрибутов для генерации Acct-Session-ID
         acct_unique {
-                key = "User-Name, Acct-Session-Id, NAS-IP-Address, Client-IP-Address, NAS-Port-Id"
+                key = "User-Name, Acct-Session-Id, NAS-IP-Address, Client-IP-Address, NAS-Port"
         }
 
         # Конфигурация авторизации и аккаунтинга посредством СУБД
