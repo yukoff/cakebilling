@@ -31,7 +31,7 @@ create table traffic (
 	id			int not null auto_increment,
 	proxy_user_ip_id	int not null,
 	proxy_server_id		int not null,
-	starttime		timestamp,
+	starttime		timestamp DEFAULT 0,
 	period			int,
 	inbytes			int(32) DEFAULT 0,
 	outbytes		int(32) DEFAULT 0,
@@ -45,7 +45,7 @@ create table traffic (
 create table url (
 	id			int not null auto_increment,
 	traffic_id		int not null,
-	gettime			timestamp,
+	gettime			timestamp DEFAULT 0,
 	host			varchar(255),
 	url			varchar(2048),
 	cached			bool,
