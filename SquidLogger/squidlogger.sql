@@ -36,6 +36,8 @@ create table traffic (
 	period			int,
 	inbytes			int(32),
 	outbytes		int(32),
+	cinbytes		int(32),
+	coutbytes		int(32),
 	primary key(id),
 	foreign key(proxy_user_ip_id) references proxy_user_ip(id),
 	foreign key(proxy_server_id) references proxy_server(id)
@@ -47,6 +49,7 @@ create table url (
 	gettime			timestamp,
 	host			varchar(255),
 	url			varchar(2048),
+	cached			bool,
 	inbytes			int(32),
 	outbytes		int(32),
 	primary key(id),
