@@ -23,9 +23,9 @@ class DbLogger:
         self.cursor = self.connection.cursor()
         self.get_proxy_servers()
         self.get_proxy_user_ips()
-        stime = time()
-        stime = localtime(stime-stime%interval)
-        self.get_traffic(strftime("%Y-%m-%d %H:%M:%S",stime))
+        tmptime = time()
+        tmptime = localtime(stime-stime%interval)
+        self.get_traffic(strftime("%Y-%m-%d %H:%M:%S",tmptime))
                          
     def get_proxy_servers(self):
         self.proxy_server.clear()
@@ -35,13 +35,11 @@ class DbLogger:
             self.proxy_server[rows[i][1]] = rows[i][0]
     
     def get_traffic(self, starttime):
-        print starttime
         self.traffic.clear()
         self.cursor.execute("select proxy_user_ip_id,proxy_server_id,starttime,period,id from traffic where starttime = %s", starttime)
         rows = self.cursor.fetchall()
         for i in xrange(len(rows)):
             self.traffic[(rows[i][0],rows[i][1],mktime(rows[i][2].timetuple()),rows[i][3])] = rows[i][4]
-        print self.traffic
 
     def get_proxy_user_ips(self):
         self.proxy_userip.clear()
@@ -50,27 +48,41 @@ class DbLogger:
         for i in xrange(len(rows)):
             self.proxy_userip[rows[i][1]] = rows[i][0]
 
-    def update_trafic(self,proxy_user_ip_id,proxy_server_id,starttime,interval,inbytes,outbytes,cached):
-        ttime = strftime("%Y-%m-%d %H:%M:%S",localtime(starttime-starttime%interval))
+    def update_trafic(self, proxy_user_ip, proxy_server, starttime, interval, host, url, inbytes, outbytes, cached):
+        tmptime = strftime("%Y-%m-%d %H:%M:%S",localtime(starttime-starttime%interval))
+        try:
+            proxy_user_ip_id = self.proxy_userip[proxy_user_ip]
+        except StandardError:
+            self.cursor.execute("insert into proxy_user_ip (proxy_user_id,ip) values (1,%s)", (proxy_user_ip))
+            proxy_user_ip_id = self.connection.insert_id()
+            self.proxy_userip[proxy_user_ip] = proxy_user_ip_id 
+        try:
+            proxy_server_id = self.proxy_server[proxy_server]
+        except StandardError:
+            proxy_server_id = 0
+        if proxy_server_id == 0:
+            return
         try:
             traffic_id = self.traffic[(proxy_user_ip_id,proxy_server_id,starttime-starttime%interval,interval)]
         except StandardError:
-            self.cursor.execute("insert into traffic (proxy_user_ip_id,proxy_server_id,starttime,period) values(%s,%s,%s,%s)", (proxy_user_ip_id,proxy_server_id,ttime,interval))
+            self.cursor.execute("insert into traffic (proxy_user_ip_id,proxy_server_id,starttime,period) values(%s,%s,%s,%s)", (proxy_user_ip_id,proxy_server_id,tmptime,interval))
             traffic_id = self.connection.insert_id()
-            self.get_traffic(ttime)
+            self.traffic[(proxy_user_ip_id,proxy_user_ip_id,starttime-starttime%interval,interval)] = traffic_id 
         if cached:
             self.cursor.execute("update traffic set cinbytes=cinbytes+%s,coutbytes=coutbytes+%s where id=%s",(inbytes,outbytes,traffic_id))
         else:
             self.cursor.execute("update traffic set inbytes=inbytes+%s,outbytes=outbytes+%s where id=%s",(inbytes,outbytes,traffic_id))
+        self.cursor.execute("insert into url (traffic_id,gettime,host,url,cached,inbytes,outbytes) values(%s,%s,%s,%s,%s,%s,%s)",
+                                (traffic_id,strftime("%Y-%m-%d %H:%M:%S",localtime(starttime)),host,url,cached,inbytes,outbytes))
             
     def save(self,time,proxy,host,request,reply,server,url,status):
         savetime = float(time)
         if status in ('TCP_MEM_HIT','TCP_REFRESH_HIT','TCP_HIT'):
-            print "cached/serverid %d: time:%s hostid:%d recived:%s send:%s server:%s url:%s" % (self.proxy_server[proxy],strftime("%Y-%m-%d %H:%M:%S",localtime(savetime)),self.proxy_userip[host],request,reply,server,url)
-            self.update_trafic(self.proxy_userip[host], self.proxy_server[proxy], savetime, self.interval, request, reply, 1)
+            print "cached/server %s: time:%s host:%s recived:%s send:%s server:%s url:%s" % (proxy,strftime("%Y-%m-%d %H:%M:%S",localtime(savetime)),host,request,reply,server,url)
+            self.update_trafic(host, proxy, savetime, self.interval, host, url, request, reply, 1)
         else:
-            print "not cached/serverid %s: time:%s hostid:%d recived:%s send:%s server:%s url:%s" % (self.proxy_server[proxy],strftime("%Y-%m-%d %H:%M:%S",localtime(savetime)),self.proxy_userip[host],request,reply,server,url)
-            self.update_trafic(self.proxy_userip[host], self.proxy_server[proxy], savetime, self.interval, request, reply, 0)
+            print "not cached/serverid %s: time:%s host:%s recived:%s send:%s server:%s url:%s" % (proxy,strftime("%Y-%m-%d %H:%M:%S",localtime(savetime)),host,request,reply,server,url)
+            self.update_trafic(host, proxy, savetime, self.interval, host, url, request, reply, 0)
  
 
 class SquidParser(DatagramProtocol):
