@@ -33,14 +33,31 @@ class DbLogger:
         rows = self.cursor.fetchall()
         for i in xrange(len(rows)):
             self.proxy_server[rows[i][1]] = rows[i][0]
-    
+
+    def get_proxy_server_id(self, proxy_server_ip):
+        try:
+            proxy_server_id = self.proxy_server[proxy_server_ip]
+        except StandardError:
+            proxy_server_id = 0
+        return proxy_server_id
+
     def get_traffic(self, starttime):
         self.traffic.clear()
-        self.cursor.execute("select proxy_user_ip_id,proxy_server_id,starttime,period,id from traffic where starttime = %s", starttime)
+        self.cursor.execute("select proxy_user_ip_id,proxy_user_id,proxy_server_id,starttime,period,id from traffic where starttime = %s", starttime)
         rows = self.cursor.fetchall()
         for i in xrange(len(rows)):
-            self.traffic[(rows[i][0],rows[i][1],mktime(rows[i][2].timetuple()),rows[i][3])] = rows[i][4]
+            self.traffic[(rows[i][0],rows[i][1],rows[i][2],mktime(rows[i][3].timetuple()),rows[i][4])] = rows[i][5]
 
+    def get_traffic_id(self, proxy_user_id, proxy_user_ip_id, proxy_server_id, starttime, interval):
+        try:
+            traffic_id = self.traffic[(proxy_user_ip_id,proxy_user_id,proxy_server_id,starttime-starttime%interval,interval)]
+        except StandardError:
+            self.cursor.execute("insert into traffic (proxy_user_ip_id,proxy_user_id,proxy_server_id,starttime,period) values(%s,%s,%s,%s)", 
+                            (proxy_user_ip_id, proxy_user_id, proxy_server_id, tmptime, interval))
+            traffic_id = self.connection.insert_id()
+            self.traffic[(proxy_user_ip_id,proxy_user_id, proxy_server_id, starttime-starttime%interval, interval)] = traffic_id 
+        return traffic_id
+ 
     def get_proxy_user_ips(self):
         self.proxy_userip.clear()
         self.cursor.execute("select id, ip from proxy_user_ip")
@@ -48,26 +65,22 @@ class DbLogger:
         for i in xrange(len(rows)):
             self.proxy_userip[rows[i][1]] = rows[i][0]
 
-    def update_trafic(self, proxy_user_ip, proxy_server, starttime, interval, host, url, inbytes, outbytes, cached):
-        tmptime = strftime("%Y-%m-%d %H:%M:%S",localtime(starttime-starttime%interval))
+    def get_proxy_user_ip_id(self,proxy_userip):
         try:
             proxy_user_ip_id = self.proxy_userip[proxy_user_ip]
         except StandardError:
             self.cursor.execute("insert into proxy_user_ip (proxy_user_id,ip) values (1,%s)", (proxy_user_ip))
             proxy_user_ip_id = self.connection.insert_id()
-            self.proxy_userip[proxy_user_ip] = proxy_user_ip_id 
-        try:
-            proxy_server_id = self.proxy_server[proxy_server]
-        except StandardError:
-            proxy_server_id = 0
+            self.proxy_userip[proxy_user_ip] = proxy_user_ip_id
+        return proxy_user_ip_id
+
+    def update_trafic(self, proxy_user_ip, proxy_server, starttime, interval, host, url, inbytes, outbytes, cached):
+        tmptime = strftime("%Y-%m-%d %H:%M:%S",localtime(starttime-starttime%interval))
+        proxy_user_ip_id = self.get_proxy_user_ip_id(proxy_userip)
+        proxy_server_id = self.get_proxy_server_id(proxy_server_ip)
         if proxy_server_id == 0:
             return
-        try:
-            traffic_id = self.traffic[(proxy_user_ip_id,proxy_server_id,starttime-starttime%interval,interval)]
-        except StandardError:
-            self.cursor.execute("insert into traffic (proxy_user_ip_id,proxy_server_id,starttime,period) values(%s,%s,%s,%s)", (proxy_user_ip_id,proxy_server_id,tmptime,interval))
-            traffic_id = self.connection.insert_id()
-            self.traffic[(proxy_user_ip_id,proxy_user_ip_id,starttime-starttime%interval,interval)] = traffic_id 
+        traffic_id = self.get_traffic_id(proxy_user_ip_id, proxy_server_id, starttime, interval)
         if cached:
             self.cursor.execute("update traffic set cinbytes=cinbytes+%s,coutbytes=coutbytes+%s where id=%s",(inbytes,outbytes,traffic_id))
         else:
