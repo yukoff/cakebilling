@@ -24,14 +24,14 @@ class DbLogger:
         self.get_proxy_servers()
         self.get_proxy_user_ips()
         tmptime = time()
-        tmptime = localtime(stime-stime%interval)
+        tmptime = localtime(tmptime-tmptime%interval)
         self.get_traffic(strftime("%Y-%m-%d %H:%M:%S",tmptime))
                          
     def get_proxy_servers(self):
         self.proxy_server.clear()
         self.cursor.execute("select id,ip from proxy_server")
         rows = self.cursor.fetchall()
-        for i in xrange(len(rows)):
+        for i in xrange(len(rows))
             self.proxy_server[rows[i][1]] = rows[i][0]
 
     def get_proxy_server_id(self, proxy_server_ip):
@@ -53,7 +53,7 @@ class DbLogger:
             traffic_id = self.traffic[(proxy_user_ip_id,proxy_user_id,proxy_server_id,starttime-starttime%interval,interval)]
         except StandardError:
             self.cursor.execute("insert into traffic (proxy_user_ip_id,proxy_user_id,proxy_server_id,starttime,period) values(%s,%s,%s,%s)", 
-                            (proxy_user_ip_id, proxy_user_id, proxy_server_id, tmptime, interval))
+                            (proxy_user_ip_id, proxy_user_id, proxy_server_id, starttime, interval))
             traffic_id = self.connection.insert_id()
             self.traffic[(proxy_user_ip_id,proxy_user_id, proxy_server_id, starttime-starttime%interval, interval)] = traffic_id 
         return traffic_id
@@ -65,7 +65,7 @@ class DbLogger:
         for i in xrange(len(rows)):
             self.proxy_userip[rows[i][1]] = rows[i][0]
 
-    def get_proxy_user_ip_id(self,proxy_userip):
+    def get_proxy_user_ip_id(self,proxy_user_ip):
         try:
             proxy_user_ip_id = self.proxy_userip[proxy_user_ip]
         except StandardError:
@@ -74,9 +74,9 @@ class DbLogger:
             self.proxy_userip[proxy_user_ip] = proxy_user_ip_id
         return proxy_user_ip_id
 
-    def update_trafic(self, proxy_user_ip, proxy_server, starttime, interval, host, url, inbytes, outbytes, cached):
+    def update_trafic(self, proxy_user_ip, proxy_server_ip, starttime, interval, host, url, inbytes, outbytes, cached):
         tmptime = strftime("%Y-%m-%d %H:%M:%S",localtime(starttime-starttime%interval))
-        proxy_user_ip_id = self.get_proxy_user_ip_id(proxy_userip)
+        proxy_user_ip_id = self.get_proxy_user_ip_id(proxy_user_ip)
         proxy_server_id = self.get_proxy_server_id(proxy_server_ip)
         if proxy_server_id == 0:
             return
