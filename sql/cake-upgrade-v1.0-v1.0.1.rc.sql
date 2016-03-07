@@ -1,130 +1,28 @@
 SET client_encoding = 'KOI8-R';
-SET check_function_bodies = true;
 
-CREATE SCHEMA cake AUTHORIZATION cake;
-
-/* таблица тарифов */
-CREATE TABLE tariff (
-    id serial NOT NULL,
-    name varchar(50) DEFAULT 'New tariff' NOT NULL,
-    price_per_mb numeric(9,2) DEFAULT 0 NOT NULL,
-    ordr integer DEFAULT 0,
-    speed integer DEFAULT 0,
-    
-    CONSTRAINT pk_tariff PRIMARY KEY (id),
-    
-    CONSTRAINT tariff_name_key UNIQUE (name)
-    
-);
-
-/* таблица с пользователями */
-CREATE TABLE users (
-    id serial NOT NULL,
-    login varchar(20) NOT NULL,
-    name varchar(50) NOT NULL,
-    pwd varchar(20) DEFAULT 'pwd',
-    balance numeric(9,2) DEFAULT 0 NOT NULL,
-    userblock boolean DEFAULT false NOT NULL,
-    overtraffblock boolean DEFAULT true NOT NULL,
-    ip_addr int,
-    id_tariff int NOT NULL,
-    grp bigint DEFAULT 0,
-
-    CONSTRAINT pk_users PRIMARY KEY (id),
-    CONSTRAINT unilogin UNIQUE (login),
-    CONSTRAINT users_ip_addr_key UNIQUE (ip_addr),
-
-    CONSTRAINT fk_users_tariff FOREIGN KEY (id_tariff) REFERENCES tariff(id) ON UPDATE CASCADE,
-    
-    CONSTRAINT users_login_not_empty CHECK (((login)::text <> ''::text)),
-    CONSTRAINT users_name_not_empty CHECK (((name)::text <> ''::text))
-
-);
-
-CREATE INDEX index_login ON users USING hash (login);
-
-/* таблица журнала внесения платежей */
-CREATE TABLE pay (
-    id serial NOT NULL,
-    id_user int NOT NULL,
-    paydate timestamp DEFAULT now() NOT NULL,
-    volume numeric (9,2) DEFAULT 0 NOT NULL,
-    id_error_pay bigint,
-    
-    CONSTRAINT pk_pay PRIMARY KEY (id),
-
-    CONSTRAINT fk_pay_users FOREIGN KEY (id_user) REFERENCES users(id) ON UPDATE RESTRICT ON DELETE CASCADE
-
-);
-
-/* таблица сессий */
-CREATE TABLE "session" (
-    id serial NOT NULL,
-    id_user int NOT NULL,
-    sid varchar(16) NOT NULL,
-    s_begin timestamp DEFAULT now() NOT NULL,
-    s_end timestamp,
-    svolume bigint DEFAULT 0 NOT NULL,
-    svolumeout bigint DEFAULT 0 NOT NULL,
-    s_last_update timestamp DEFAULT now(),
-    
-    CONSTRAINT pk_session PRIMARY KEY (id),
-    
-    CONSTRAINT fk_session_user FOREIGN KEY (id_user) REFERENCES users(id) ON UPDATE RESTRICT ON DELETE CASCADE
-
-);
-
-CREATE UNIQUE INDEX indx_sid ON "session" USING btree (sid);
-
-CREATE INDEX idx_session_begin ON "session" USING btree (s_begin);
-CREATE INDEX idx_session_end ON "session" USING btree (s_end);
-
-/* таблица промежуточных состояний сессий */
-CREATE TABLE keepalive (
-    id serial NOT NULL,
-    id_session int NOT NULL,
-    kdatetime timestamp DEFAULT now() NOT NULL,
-    volumein bigint DEFAULT 0 NOT NULL,
-    volumeout bigint DEFAULT 0 NOT NULL,
-    diff_in bigint DEFAULT 0 NOT NULL,
-    diff_out bigint DEFAULT 0 NOT NULL,
-    
-    CONSTRAINT pk_keepalive PRIMARY KEY (id),
-
-    CONSTRAINT fk_keepalive_session FOREIGN KEY (id_session) REFERENCES "session"(id) ON UPDATE RESTRICT ON DELETE CASCADE
-        
-);
-
-CREATE INDEX idx_keepalive_datetime ON keepalive USING btree (kdatetime);
-
-/* таблица параметров */
-CREATE TABLE parameters (
-    id serial NOT NULL,
-    name varchar(60) NOT NULL,
-    value varchar(60) NOT NULL,
-    "comment" varchar(100),
-    
-    CONSTRAINT pk_parameters PRIMARY KEY (id),
-    
-    CONSTRAINT uniname UNIQUE (name)
-);
-
-CREATE INDEX index_name ON parameters USING hash (name);
-
-/*---------------------------------- функции работы с FreeRADIUS сервером --------------------------*/
-CREATE TYPE auth_reply AS (
-	id integer,
-	username varchar,
-	attribute varchar,
-	value varchar,
-	op varchar
-);
-
+DROP FUNCTION cake.check_iddle_sessions();
+DROP FUNCTION cake.auth_check(varchar);
+DROP FUNCTION cake.auth_reply(varchar);
+DROP FUNCTION cake.str2sid(text);
+DROP FUNCTION cake.str2uid(text);
+DROP FUNCTION cake.acct_update(varchar, bigint, bigint);
+DROP FUNCTION cake.u_mwb_report(boolean);
+DROP FUNCTION cake.u_mwb_report_all(boolean);
+DROP FUNCTION cake.u_mwb_report_user(varchar,varchar);
+DROP FUNCTION cake.getparameter(varchar);
+DROP FUNCTION cake.get_new_ip();
+DROP FUNCTION cake.update_balance(int, numeric);
+DROP TRIGGER inc_balance_on_ins_pay ON cake.pay CASCADE;
+DROP TRIGGER set_ip_for_newuser ON cake.users CASCADE;
+DROP TRIGGER dec_user_balanse_trigger ON cake."session" CASCADE;
+DROP FUNCTION cake.set_ip_for_newuser_f();
+DROP FUNCTION cake.dec_user_balanse();
+DROP FUNCTION cake.inc_balance();
 
 -- проверка висящих сессий
 -- хинт: добавить изменяемый параметр к интервалу поиска
 
-CREATE FUNCTION check_idle_sessions() RETURNS void
+CREATE FUNCTION cake.check_idle_sessions() RETURNS void
     AS '
 DECLARE 
 
@@ -138,7 +36,7 @@ END
 '
 LANGUAGE plpgsql VOLATILE;
 
-CREATE FUNCTION auth_check(varchar) RETURNS SETOF auth_reply
+CREATE FUNCTION cake.auth_check(varchar) RETURNS SETOF cake.auth_reply
     AS '
 DECLARE
 
@@ -174,7 +72,7 @@ END
 '
 LANGUAGE plpgsql STABLE;
 
-CREATE FUNCTION auth_reply(varchar) RETURNS SETOF auth_reply
+CREATE FUNCTION cake.auth_reply(varchar) RETURNS SETOF cake.auth_reply
     AS '
 DECLARE
 
@@ -184,7 +82,7 @@ cuser cake.users%ROWTYPE;
 
 mb_price numeric(9,2);
 
-traffout bigint := cake.getParameter(''max_traffout'')::bigint;
+traffout bigint := cake.getParameter(''max_traffout'')::int;
 
 BEGIN
     -- текущий пользователь                                                                                                           
@@ -245,27 +143,44 @@ END
 '
 LANGUAGE plpgsql STABLE;
 
-CREATE FUNCTION str2sid(varchar) RETURNS integer
+CREATE FUNCTION cake.str2sid(varchar) RETURNS integer
     AS '
     SELECT id from cake.session where cake.session.sid=$1
 '
 LANGUAGE 'SQL' STABLE;
 
-CREATE FUNCTION str2uid(varchar) RETURNS integer
+CREATE FUNCTION cake.str2uid(varchar) RETURNS integer
     AS '
     SELECT id from cake.users where cake.users.login=$1
 '
 LANGUAGE 'SQL' STABLE;
 
-CREATE FUNCTION acct_update(varchar, bigint, bigint) RETURNS void 
+CREATE FUNCTION cake.start_session(varchar, varchar) RETURNS void
+    AS '
+    INSERT INTO cake.session (sid, id_user) VALUES ($1, cake.str2uid($2))
+'
+LANGUAGE 'SQL' VOLATILE;
+
+CREATE FUNCTION cake.stop_session(bigint,bigint,varchar) RETURNS void
+    AS '
+BEGIN
+    PERFORM acct_update($3,$2,$1);
+    UPDATE cake.session SET svolumeout=$1, svolume=$2, s_end=now() WHERE id=cake.str2sid($3);
+    PERFORM clear_keepalive();
+    RETURN;
+END
+'
+LANGUAGE plpgsql VOLATILE;
+
+CREATE FUNCTION cake.acct_update(varchar, bigint, bigint) RETURNS void 
     AS '
 DECLARE
 
-as_id integer;
 sid ALIAS FOR $1;
 vin ALIAS FOR $2;
 vout ALIAS FOR $3;
 ck cake.keepalive%ROWTYPE;
+as_id integer;
 d_in bigint := 0;
 d_out bigint := 0;
 
@@ -297,40 +212,10 @@ BEGIN
 END
 '
 LANGUAGE plpgsql VOLATILE;
-
-CREATE FUNCTION start_session(varchar, varchar) RETURNS void
-    AS '
-    INSERT INTO cake.session (sid, id_user) VALUES ($1, cake.str2uid($2))
-'
-LANGUAGE 'SQL' VOLATILE;
-
-CREATE FUNCTION stop_session(bigint,bigint,varchar) RETURNS void
-    AS '
-BEGIN
-    PERFORM acct_update($3,$2,$1);
-    UPDATE cake.session SET svolumeout=$1, svolume=$2, s_end=now() WHERE id=cake.str2sid($3);
-    PERFORM clear_keepalive();
-    RETURN;
-END
-'
-LANGUAGE plpgsql VOLATILE;
 /*---------------------------------- функции работы с FreeRADIUS сервером --------------------------*/
 
 /*---------------------------------- функции отчетов -----------------------------------------------*/
-CREATE TYPE mwb_report AS (
-    uname varchar,
-    ulogin varchar,
-    bal_cur numeric,
-    bal_mb numeric,
-    traf_week numeric,
-    cur_week numeric,
-    traf_month numeric,
-    cur_month numeric,
-    userblock boolean,
-    overtraffblock boolean
-);
-
-CREATE FUNCTION u_mwb_report() RETURNS SETOF mwb_report
+CREATE FUNCTION cake.u_mwb_report() RETURNS SETOF cake.mwb_report
     AS '
 DECLARE
 
@@ -391,7 +276,7 @@ END
 '
 LANGUAGE plpgsql STABLE;
 
-CREATE FUNCTION u_mwb_report_all() RETURNS SETOF mwb_report
+CREATE FUNCTION cake.u_mwb_report_all() RETURNS SETOF cake.mwb_report
     AS '
 DECLARE
 
@@ -465,7 +350,7 @@ END
 '
 LANGUAGE plpgsql STABLE;
 
-CREATE FUNCTION u_mwb_report_user(varchar,varchar) RETURNS SETOF mwb_report
+CREATE FUNCTION cake.u_mwb_report_user(varchar,varchar) RETURNS SETOF cake.mwb_report
     AS '
 DECLARE
     
@@ -526,17 +411,18 @@ BEGIN
 END
 '
 LANGUAGE plpgsql STABLE;
+
 /*---------------------------------- функции отчетов -----------------------------------------------*/
 
 /* функция возвращающая значение параметра */
-CREATE FUNCTION getparameter(varchar) RETURNS text
+CREATE FUNCTION cake.getparameter(varchar) RETURNS text
     AS '
     SELECT value FROM cake.parameters WHERE name=$1
 '
 LANGUAGE 'SQL' STABLE;
 
 /* функция ротации статистики */
-CREATE OR REPLACE FUNCTION clear_keepalive() RETURNS void
+CREATE FUNCTION cake.clear_keepalive() RETURNS void
     AS '
     DELETE FROM cake.keepalive
 	WHERE kdatetime <= date_trunc(''day'',now() - (cake.getparameter(''clear_keepalive'') ||'' Days'')::interval)
@@ -544,7 +430,7 @@ CREATE OR REPLACE FUNCTION clear_keepalive() RETURNS void
 LANGUAGE 'SQL' VOLATILE;
 	
 /* функция получения нового ip адреса из заданного пула */
-CREATE FUNCTION get_new_ip() RETURNS integer
+CREATE FUNCTION cake.get_new_ip() RETURNS integer
     AS'
 DECLARE 
 
@@ -578,7 +464,7 @@ END
 LANGUAGE plpgsql STABLE;
 
 /* функция выдачи ip адреса из пула при добавлении нового пользователя */
-CREATE FUNCTION set_ip_for_newuser_f() RETURNS "trigger"
+CREATE FUNCTION cake.set_ip_for_newuser_f() RETURNS "trigger"
     AS '
 BEGIN
     IF (new.ip_addr IS NULL) THEN 
@@ -591,7 +477,7 @@ END
 LANGUAGE plpgsql VOLATILE;
 
 /* функция увеличения баланса */
-CREATE FUNCTION inc_balance() RETURNS "trigger"
+CREATE FUNCTION cake.inc_balance() RETURNS "trigger"
     AS '
 DECLARE 
 
@@ -607,7 +493,7 @@ END;
 LANGUAGE plpgsql VOLATILE;
 
 /* функция изменения баланса */
-CREATE FUNCTION update_balance(int, numeric) RETURNS integer
+CREATE FUNCTION cake.update_balance(int, numeric) RETURNS integer
     AS '
 DECLARE
 
@@ -628,7 +514,7 @@ END;
 LANGUAGE plpgsql VOLATILE;
 
 /* функция декримента баланса пользователя */
-CREATE FUNCTION dec_user_balance_f() RETURNS "trigger"
+CREATE FUNCTION cake.dec_user_balance_f() RETURNS "trigger"
     AS '
 DECLARE
 
@@ -673,17 +559,6 @@ CREATE TRIGGER dec_user_balance
     FOR EACH ROW
     EXECUTE PROCEDURE dec_user_balance_f();
 
-INSERT INTO parameters (name,value,"comment") VALUES ('traffinterval', '60', 'Период обновления данных о расходе траффика (в секундах)');
-INSERT INTO parameters (name,value,"comment") VALUES ('ipnetmask', '255.255.255.0', 'Маска виртуальной сети');
-INSERT INTO parameters (name,value,"comment") VALUES ('max_traffout', '1073741824', 'Максимальный траффик сессии (в байтах)');
-INSERT INTO parameters (name,value,"comment") VALUES ('min_pool_ip', '2', 'Минимальный ip адрес клиента');
-INSERT INTO parameters (name,value,"comment") VALUES ('max_pool_ip', '254', 'Максимальный ip адрес клиента');
-INSERT INTO parameters (name,value,"comment") VALUES ('idle_timeout','7200', '&laquo;Сонный&raquo; таймаут (в секундах)');
-INSERT INTO parameters (name,value,"comment") VALUES ('ipsubnet','192.168.2', 'Виртуальная подсеть (в формате &laquo;x.x.x&raquo;)');
-INSERT INTO parameters (name,value,"comment") VALUES ('max_timeout', '43200', 'Максимальное время сессии (в секундах)');
-INSERT INTO parameters (name,value,"comment") VALUES ('clear_keepalive', '30', 'Время ротации статистики (в днях)');
-
-
-INSERT INTO tariff (name,price_per_mb) VALUES ('Основной',1.00);
-
-INSERT INTO users (login, name, pwd, balance, userblock, overtraffblock, ip_addr, id_tariff ,grp) VALUES('admin', 'Admin', '1234', 0.00, 'f', 't', 2, 1, 1);
+UPDATE cake.parameters SET name='idle_timeout' WHERE name='iddle_timeout';
+INSERT INTO cake.parameters (name,value,"comment") VALUES ('clear_keepalive', '30', 'Время ротации статистики (в днях)');
+ALTER TABLE cake.users ALTER COLUMN ip_addr DROP DEFAULT;
